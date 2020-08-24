@@ -1,0 +1,8 @@
+name: netlify-plugin-edge
+inputs:
+  - name: sourceDir
+    default: "handlers"
+  - name: outputDir
+    default: ".netlify/handlers"
+  - name: apiHost
+    default: "api.netlify.com"

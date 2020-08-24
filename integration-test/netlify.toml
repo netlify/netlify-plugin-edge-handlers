@@ -1,0 +1,13 @@
+[build]
+ignore = "false"
+
+[[plugins]]
+package = "../"
+  [plugins.inputs]
+  sourceDir = "edge-handlers"
+
+[[redirects]]
+from = "/"
+status = 200
+force = true
+edge_function = "hello-world"
