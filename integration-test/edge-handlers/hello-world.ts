@@ -1,7 +1,11 @@
-var _ = require("lodash");
+import { concat } from "lodash";
+import td from "./data/states.json";
 
 export async function onRequest(ev: Netlify.Event) {
   const req = await ev.getRequest();
-  const arr = _.concat([1, 2, 3], 4, [5]);
-  console.log(arr);
+  const state = req.headers.get("X-NF-Subdivision-Code");
+  const data = state && td.find((el) => el.state === state);
+  var array = [1];
+  var other = concat(array, 2, [3], [4]);
+  console.log(other);
 }

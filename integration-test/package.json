@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/lodash": "^4.14.160",
+    "date-fns": "^2.15.0",
     "lodash": "^4.17.20"
   }
 }

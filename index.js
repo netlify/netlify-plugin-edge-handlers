@@ -1,3 +1,4 @@
+const rollup = require("rollup");
 const nodeBabel = require("@rollup/plugin-babel");
 const babel = nodeBabel.babel;
 const esbuild = require("rollup-plugin-esbuild");
@@ -14,13 +15,11 @@ const os = require("os");
 
 const MAIN_FILE = "__netlifyMain.ts";
 const TYPES_FILE = "__netlifyTypes.d.ts";
+const CONTENT_TYPE = "application/javascript";
 
 async function assemble(src) {
   const tmpDir = await fsPromises.mkdtemp("handlers-"); //make temp dir `handlers-abc123`
-  await fsPromises.copyFile(
-    path.join(__dirname, "./src", "types.d.ts"),
-    path.join(tmpDir, TYPES_FILE),
-  );
+  await fsPromises.copyFile(path.join(__dirname, "types.d.ts"), path.join(tmpDir, TYPES_FILE));
   const handlers = [];
   let imports = "";
   let registration = "";
@@ -41,14 +40,13 @@ async function assemble(src) {
   }
 
   // import path //
-  const mainContents = imports + registration;
+  const mainContents = `/// <reference path="./${TYPES_FILE}" />\n` + imports + registration;
   const mainFile = path.join(tmpDir, MAIN_FILE);
   await fsPromises.writeFile(mainFile, mainContents);
   return { handlers, mainFile, js: path.join(tmpDir, "hello-world.ts") };
 }
 
 async function bundleFunctions(file) {
-  // return new Promise((resolve, reject) => {
   const options = {
     input: file,
     plugins: [
@@ -63,11 +61,15 @@ async function bundleFunctions(file) {
       commonjs(),
     ],
   };
-  const stream = await rollupStream(options);
-  return stream;
+  const bundle = await rollup.rollup(options);
+  const { output } = await bundle.generate({
+    format: "iife",
+  });
+  return output;
 }
 
 async function writeBundle(buf, output, isLocal) {
+  buf = buf[0].code;
   const shasum = crypto.createHash("sha1");
   shasum.update(buf);
 
@@ -77,6 +79,7 @@ async function writeBundle(buf, output, isLocal) {
     content_type: CONTENT_TYPE,
   };
   console.log(bundleInfo);
+
   if (isLocal) {
     const dir = await fsPromises.mkdir(path.normalize(output));
     const outputFile = path.join(output, bundleInfo.sha);
@@ -87,20 +90,7 @@ async function writeBundle(buf, output, isLocal) {
 module.exports = {
   onPostBuild: async ({ inputs }) => {
     const { js, mainFile } = await assemble(inputs.sourceDir);
-    const stream = await bundleFunctions(js);
-
-    const bufs = [];
-    let outputBuf;
-    stream.on("data", (data) => {
-      console.log("data", data);
-      bufs.push(data);
-    });
-    stream.on("end", () => {
-      console.log("in here");
-      writeBundle(Buffer.concat(bufs), "handlers-build", true);
-    });
-    stream.on("error", () => {
-      throw new Error("could not get bundle from stdout");
-    });
+    const bundle = await bundleFunctions(mainFile);
+    await writeBundle(bundle, path.join(__dirname, "handlers-build"), true);
   },
 };
