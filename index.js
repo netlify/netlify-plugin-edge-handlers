@@ -31,10 +31,8 @@ async function assemble(src) {
 
     const id = "func" + crypto.randomBytes(16).toString("hex");
     const name = func.name.substr(0, func.name.length - 3); // remove extension //
-    imports += `import * as ${id} from "./${func.name}";\n`;
+    imports += `import * as ${id} from "${path.resolve(src, func.name)}";\n`;
     registration += `netlifyRegistry.set("${name}", ${id});\n`;
-
-    await fsPromises.copyFile(path.join(src, func.name), path.join(tmpDir, func.name));
 
     handlers.push(func);
   }
