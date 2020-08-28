@@ -40,7 +40,7 @@ async function assemble(src) {
   const mainContents = `/// <reference path="./${TYPES_FILE}" />\n` + imports + registration;
   const mainFile = path.join(tmpDir, MAIN_FILE);
   await fsPromises.writeFile(mainFile, mainContents);
-  return { handlers, mainFile, js: path.join(tmpDir, "hello-world.ts") };
+  return { handlers, mainFile };
 }
 
 async function bundleFunctions(file) {
