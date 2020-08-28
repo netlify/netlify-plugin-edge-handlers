@@ -25,8 +25,11 @@ async function assemble(src) {
   let registration = "";
   const functions = await fsPromises.readdir(src, { withFileTypes: true });
   for (const func of functions) {
-    if (!func.isFile() || (!func.name.endsWith(".js") && !func.name.endsWith(".ts"))) {
-      return;
+    if (
+      !func.isFile() ||
+      (!func.name.endsWith(".js") && !func.name.endsWith(".ts"))
+    ) {
+      continue;
     }
 
     const id = "func" + crypto.randomBytes(16).toString("hex");
