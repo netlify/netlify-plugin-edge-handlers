@@ -1,18 +1,16 @@
+const crypto = require("crypto");
+const { promises: fsPromises } = require("fs");
+const path = require("path");
+
+const nodeBabel = require("@rollup/plugin-babel");
+const commonjs = require("@rollup/plugin-commonjs");
+const nodeResolve = require("@rollup/plugin-node-resolve");
 const makeDir = require("make-dir");
 const rollup = require("rollup");
-const nodeBabel = require("@rollup/plugin-babel");
-const babel = nodeBabel.babel;
 const esbuild = require("rollup-plugin-esbuild");
-const nodeResolve = require("@rollup/plugin-node-resolve");
-const resolve = nodeResolve.nodeResolve;
-const commonjs = require("@rollup/plugin-commonjs");
-const rollupStream = require("@rollup/stream");
 
-// import { promises as fsPromises } from "fs";
-const fsPromises = require("fs").promises;
-const crypto = require("crypto");
-const path = require("path");
-const os = require("os");
+const babel = nodeBabel.babel;
+const resolve = nodeResolve.nodeResolve;
 
 const MAIN_FILE = "__netlifyMain.ts";
 const TYPES_FILE = "__netlifyTypes.d.ts";
@@ -26,10 +24,7 @@ async function assemble(src) {
   let registration = "";
   const functions = await fsPromises.readdir(src, { withFileTypes: true });
   for (const func of functions) {
-    if (
-      !func.isFile() ||
-      (!func.name.endsWith(".js") && !func.name.endsWith(".ts"))
-    ) {
+    if (!func.isFile() || (!func.name.endsWith(".js") && !func.name.endsWith(".ts"))) {
       continue;
     }
 
@@ -91,7 +86,7 @@ async function writeBundle(buf, output, isLocal) {
 
 module.exports = {
   onPostBuild: async ({ inputs }) => {
-    const { js, mainFile } = await assemble(inputs.sourceDir);
+    const { mainFile } = await assemble(inputs.sourceDir);
     const bundle = await bundleFunctions(mainFile);
     await writeBundle(bundle, path.join(__dirname, "handlers-build"), true);
   },
