@@ -1,7 +1,7 @@
 {
   "name": "netlify-plugin-edge",
   "version": "1.0.0",
-  "description": "",
+  "description": "Netlify Build plugin to bundle Edge functions",
   "main": "index.js",
   "scripts": {
     "build": "rollup -c"
