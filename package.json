@@ -1,5 +1,5 @@
 {
-  "name": "netlify-plugin-edge",
+  "name": "@netlify/plugin-edge-handlers",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
