@@ -76,7 +76,7 @@ async function writeBundle(buf, output, isLocal) {
 
   const bundleInfo = {
     sha: shasum.digest("hex"),
-    content_length: buf.byteLength,
+    content_length: buf.length,
     content_type: CONTENT_TYPE,
   };
   console.log(bundleInfo);
