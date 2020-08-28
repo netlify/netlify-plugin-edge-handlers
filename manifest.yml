@@ -1,4 +1,4 @@
-name: netlify-plugin-edge
+name: "@netlify/plugin-edge-handlers"
 inputs:
   - name: sourceDir
     default: "edge-handlers"
