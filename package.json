@@ -18,6 +18,7 @@
     "@types/node": "^14.0.27",
     "esbuild": "^0.6.25",
     "fs": "0.0.1-security",
+    "make-dir": "^3.1.0",
     "path": "^0.12.7",
     "rollup": "^2.23.1",
     "rollup-plugin-esbuild": "^2.4.2",

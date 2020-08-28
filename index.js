@@ -1,3 +1,4 @@
+const makeDir = require("make-dir");
 const rollup = require("rollup");
 const nodeBabel = require("@rollup/plugin-babel");
 const babel = nodeBabel.babel;
@@ -81,7 +82,7 @@ async function writeBundle(buf, output, isLocal) {
   console.log(bundleInfo);
 
   if (isLocal) {
-    const dir = await fsPromises.mkdir(path.normalize(output));
+    await makeDir(output);
     const outputFile = path.join(output, bundleInfo.sha);
     await fsPromises.writeFile(outputFile, buf);
   }
