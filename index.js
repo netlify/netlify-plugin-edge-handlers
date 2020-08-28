@@ -8,6 +8,7 @@ const nodeResolve = require("@rollup/plugin-node-resolve");
 const makeDir = require("make-dir");
 const rollup = require("rollup");
 const esbuild = require("rollup-plugin-esbuild");
+const json = require("@rollup/plugin-json");
 
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
@@ -56,6 +57,9 @@ async function bundleFunctions(file) {
       }),
       resolve(),
       commonjs(),
+      json({
+        compact: true,
+      }),
     ],
   };
   const bundle = await rollup.rollup(options);
