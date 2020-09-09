@@ -19,6 +19,13 @@ const MAIN_FILE = "__netlifyMain.ts";
 const TYPES_FILE = "__netlifyTypes.d.ts";
 const CONTENT_TYPE = "application/javascript";
 
+/**
+ * Generates an entrypoint for bundling the handlers
+ * It also makes sure all handlers are registered with the runtime
+ *
+ * @param {string} src path to the edge handler directory
+ * @returns {Promise<{ handlers: string[], mainFile: string }>} list of handlers and path to entrypoint
+ */
 async function assemble(src) {
   const tmpDir = await fsPromises.mkdtemp("handlers-"); //make temp dir `handlers-abc123`
   await fsPromises.copyFile(path.join(__dirname, "types.d.ts"), path.join(tmpDir, TYPES_FILE));
@@ -46,6 +53,12 @@ async function assemble(src) {
   return { handlers, mainFile };
 }
 
+/**
+ * Bundles the handler code based on a generated entrypoint
+ *
+ * @param {string} file path of the entrypoint file
+ * @returns {Promise<string>} bundled code
+ */
 async function bundleFunctions(file) {
   const options = {
     input: file,
@@ -74,6 +87,15 @@ async function bundleFunctions(file) {
   return code;
 }
 
+/**
+ * Writes out the bundled code to disk along with any meta info
+ *
+ * @param {string} bundle bundled code
+ * @param {string[]} handlers names of the included handlers
+ * @param {string} outputDir path to the output directory (created if not exists)
+ * @param {boolean} isLocal whether we're running locally or in CI
+ * @returns {Promise<void>}
+ */
 async function writeBundle(bundle, handlers, outputDir, isLocal) {
   // encode bundle into bytes
   const buf = Buffer.from(bundle, "utf-8");
