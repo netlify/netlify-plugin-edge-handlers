@@ -82,7 +82,7 @@ async function writeBundle(bundle, handlers, outputDir, isLocal) {
   shasum.update(buf);
 
   const bundleInfo = {
-    sha: shasum.digest("hex"),
+    shaSum: shasum.digest("hex"),
     handlers,
     // needs to have length of the byte representation, not the string length
     content_length: buf.length,
@@ -93,7 +93,7 @@ async function writeBundle(bundle, handlers, outputDir, isLocal) {
     await makeDir(outputDir);
 
     // bundled handlers
-    const outputFile = path.join(outputDir, bundleInfo.sha);
+    const outputFile = path.join(outputDir, bundleInfo.shaSum);
     await fsPromises.writeFile(outputFile, bundle, "utf-8");
 
     // manifest
