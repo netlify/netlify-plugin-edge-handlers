@@ -36,7 +36,7 @@ async function assemble(src) {
     imports += `import * as ${id} from "${path.resolve(src, func.name)}";\n`;
     registration += `netlifyRegistry.set("${name}", ${id});\n`;
 
-    handlers.push(func);
+    handlers.push(func.name);
   }
 
   // import path //
@@ -74,7 +74,7 @@ async function bundleFunctions(file) {
   return code;
 }
 
-async function writeBundle(bundle, outputDir, isLocal) {
+async function writeBundle(bundle, handlers, outputDir, isLocal) {
   // encode bundle into bytes
   const buf = Buffer.from(bundle, "utf-8");
 
@@ -83,6 +83,7 @@ async function writeBundle(bundle, outputDir, isLocal) {
 
   const bundleInfo = {
     sha: shasum.digest("hex"),
+    handlers,
     // needs to have length of the byte representation, not the string length
     content_length: buf.length,
     content_type: CONTENT_TYPE,
@@ -103,8 +104,8 @@ async function writeBundle(bundle, outputDir, isLocal) {
 
 module.exports = {
   onPostBuild: async ({ inputs }) => {
-    const { mainFile } = await assemble(inputs.sourceDir);
+    const { mainFile, handlers } = await assemble(inputs.sourceDir);
     const bundle = await bundleFunctions(mainFile);
-    await writeBundle(bundle, path.join(__dirname, LOCAL_OUT_DIR), true);
+    await writeBundle(bundle, handlers, path.join(__dirname, LOCAL_OUT_DIR), true);
   },
 };
