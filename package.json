@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run format",
     "format": "run-s format:*",
-    "format:lint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"*.js\"",
+    "format:lint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"src/**/*.js\"",
     "format:prettier": "prettier --ignore-path .gitignore --write --loglevel warn \"*.{js,md,yml,json}\" \"!**/package-lock.json\" \"!package-lock.json\""
   },
   "keywords": [],
