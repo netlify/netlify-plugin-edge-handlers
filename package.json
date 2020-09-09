@@ -2,7 +2,7 @@
   "name": "@netlify/plugin-edge-handlers",
   "version": "1.0.0",
   "description": "Netlify Build plugin to bundle Edge functions",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "build": "rollup -c",
     "test": "npm run format",
