@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "lib": [],
+    "declaration": false,
+    "outDir": "./",
+    "rootDir": "./src",
+    "strict": true /* Enable all strict type-checking options. */,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": ["integration-test/**/*", "dist/**/*"]
+}
