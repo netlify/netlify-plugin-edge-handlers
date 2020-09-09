@@ -52,4 +52,4 @@ async function uploadBundle(buf, info, deployId, apiToken) {
   return true;
 }
 
-exports = uploadBundle;
+module.exports = uploadBundle;
