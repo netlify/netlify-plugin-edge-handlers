@@ -12,9 +12,18 @@ const json = require("@rollup/plugin-json");
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
 
+const LOCAL_OUT_DIR = path.join(process.cwd(), ".netlify", "edge-handlers");
+const MANIFEST_FILE = "manifest.json";
 const MAIN_FILE = "__netlifyMain.ts";
 const CONTENT_TYPE = "application/javascript";
 
+/**
+ * Generates an entrypoint for bundling the handlers
+ * It also makes sure all handlers are registered with the runtime
+ *
+ * @param {string} src path to the edge handler directory
+ * @returns {Promise<{ handlers: string[], mainFile: string }>} list of handlers and path to entrypoint
+ */
 async function assemble(src) {
   const tmpDir = await fsPromises.mkdtemp("handlers-"); //make temp dir `handlers-abc123`
   const handlers = [];
@@ -31,7 +40,7 @@ async function assemble(src) {
     imports += `import * as ${id} from "${path.resolve(src, func.name)}";\n`;
     registration += `netlifyRegistry.set("${name}", ${id});\n`;
 
-    handlers.push(func);
+    handlers.push(func.name);
   }
 
   // import path //
@@ -61,6 +70,12 @@ const babelConfig = {
   ],
 };
 
+/**
+ * Bundles the handler code based on a generated entrypoint
+ *
+ * @param {string} file path of the entrypoint file
+ * @returns {Promise<string>} bundled code
+ */
 async function bundleFunctions(file) {
   const options = {
     input: file,
@@ -73,36 +88,57 @@ async function bundleFunctions(file) {
       }),
     ],
   };
+
   const bundle = await rollup.rollup(options);
-  const { output } = await bundle.generate({
+  const {
+    output: [{ code }],
+  } = await bundle.generate({
     format: "iife",
   });
-  return output;
+  return code;
 }
 
-async function writeBundle(buf, output, isLocal) {
-  buf = buf[0].code;
+/**
+ * Writes out the bundled code to disk along with any meta info
+ *
+ * @param {string} bundle bundled code
+ * @param {string[]} handlers names of the included handlers
+ * @param {string} outputDir path to the output directory (created if not exists)
+ * @param {boolean} isLocal whether we're running locally or in CI
+ * @returns {Promise<void>}
+ */
+async function writeBundle(bundle, handlers, outputDir, isLocal) {
+  // encode bundle into bytes
+  const buf = Buffer.from(bundle, "utf-8");
+
   const shasum = crypto.createHash("sha1");
   shasum.update(buf);
 
   const bundleInfo = {
-    sha: shasum.digest("hex"),
+    shaSum: shasum.digest("hex"),
+    handlers,
+    // needs to have length of the byte representation, not the string length
     content_length: buf.length,
     content_type: CONTENT_TYPE,
   };
-  console.log(bundleInfo);
 
   if (isLocal) {
-    await makeDir(output);
-    const outputFile = path.join(output, bundleInfo.sha);
-    await fsPromises.writeFile(outputFile, buf);
+    await makeDir(outputDir);
+
+    // bundled handlers
+    const outputFile = path.join(outputDir, bundleInfo.shaSum);
+    await fsPromises.writeFile(outputFile, bundle, "utf-8");
+
+    // manifest
+    const manifestFile = path.join(outputDir, MANIFEST_FILE);
+    await fsPromises.writeFile(manifestFile, JSON.stringify(bundleInfo));
   }
 }
 
 module.exports = {
   onPostBuild: async ({ inputs }) => {
-    const { mainFile } = await assemble(inputs.sourceDir);
+    const { mainFile, handlers } = await assemble(inputs.sourceDir);
     const bundle = await bundleFunctions(mainFile);
-    await writeBundle(bundle, path.join(__dirname, "handlers-build"), true);
+    await writeBundle(bundle, handlers, LOCAL_OUT_DIR, true);
   },
 };
