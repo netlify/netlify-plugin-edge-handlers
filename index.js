@@ -13,7 +13,7 @@ const json = require("@rollup/plugin-json");
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
 
-const LOCAL_OUT_DIR = ".netlify/edge-handlers";
+const LOCAL_OUT_DIR = path.join(process.cwd(), ".netlify", "edge-handlers");
 const MANIFEST_FILE = "manifest.json";
 const MAIN_FILE = "__netlifyMain.ts";
 const TYPES_FILE = "__netlifyTypes.d.ts";
@@ -128,6 +128,6 @@ module.exports = {
   onPostBuild: async ({ inputs }) => {
     const { mainFile, handlers } = await assemble(inputs.sourceDir);
     const bundle = await bundleFunctions(mainFile);
-    await writeBundle(bundle, handlers, path.join(__dirname, LOCAL_OUT_DIR), true);
+    await writeBundle(bundle, handlers, LOCAL_OUT_DIR, true);
   },
 };
