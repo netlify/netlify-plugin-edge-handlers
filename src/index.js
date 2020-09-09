@@ -8,16 +8,12 @@ const nodeResolve = require("@rollup/plugin-node-resolve");
 const makeDir = require("make-dir");
 const rollup = require("rollup");
 const json = require("@rollup/plugin-json");
-const fetch = require("node-fetch");
 
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
 
-const LOCAL_OUT_DIR = path.join(process.cwd(), ".netlify", "edge-handlers");
-const MANIFEST_FILE = "manifest.json";
-const MAIN_FILE = "__netlifyMain.ts";
-const CONTENT_TYPE = "application/javascript";
-const API_HOST = "api.netlify.com";
+const uploadBundle = require("./upload");
+const { LOCAL_OUT_DIR, MANIFEST_FILE, MAIN_FILE, CONTENT_TYPE } = require("./consts");
 
 /**
  * Generates an entrypoint for bundling the handlers
@@ -101,10 +97,6 @@ async function bundleFunctions(file) {
 }
 
 /**
- * @typedef {{ sha: string, handlers: string[], content_length: number, content_type: string }} BundleInfo
- */
-
-/**
  * Writes out the bundled code to disk along with any meta info
  *
  * @param {string} bundle bundled code
@@ -121,7 +113,7 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
   const shasum = crypto.createHash("sha1");
   shasum.update(buf);
 
-  /** @type {BundleInfo} */
+  /** @type {import("./upload").BundleInfo} */
   const bundleInfo = {
     sha: shasum.digest("hex"),
     handlers,
@@ -143,51 +135,6 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
   } else {
     await uploadBundle(buf, bundleInfo, process.env.DEPLOY_ID, apiToken);
   }
-}
-
-/**
- *
- * @param {Buffer} buf UTF-8 encoded handler bundle
- * @param {BundleInfo} info metadata about the bundle
- * @param {string} deployId id of the deploy the bundle is deployed for
- * @param {string} apiToken token for authorizing on the API
- * @returns {Promise<boolean>} Whether the bundle was newly uploaded (and did not already exist)
- */
-async function uploadBundle(buf, info, deployId, apiToken) {
-  const resp = await fetch(`https://${API_HOST}/api/v1/deploys/${deployId}/edge_handlers`, {
-    method: "POST",
-    body: JSON.stringify(info),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiToken}`,
-    },
-  });
-
-  if (!resp.ok) {
-    throw new Error(`Invalid status: ${resp.status}`);
-  }
-
-  const { error, exists, upload_url } = await resp.json();
-  if (error) {
-    throw new Error(`Failed to upload: ${error}`);
-  }
-  if (exists) {
-    console.log("Bundle already exists. Skipping upload...");
-    return false;
-  }
-  if (!upload_url) {
-    throw new Error("Missing upload url");
-  }
-
-  await fetch(upload_url, {
-    method: "PUT",
-    body: buf,
-    headers: {
-      "Content-Type": CONTENT_TYPE,
-    },
-  });
-
-  return true;
 }
 
 module.exports = {
