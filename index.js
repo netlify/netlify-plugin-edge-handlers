@@ -196,15 +196,4 @@ module.exports = {
     const bundle = await bundleFunctions(mainFile);
     await publishBundle(bundle, handlers, LOCAL_OUT_DIR, constants.IS_LOCAL, constants.NETLIFY_API_TOKEN);
   },
-  /**
-   * @type {(deployId: string, apiToken: string) => Promise<boolean>}
-   */
-  deployFromManifest: async (deployId, apiToken) => {
-    const manifestFile = await fsPromises.readFile(path.join(LOCAL_OUT_DIR, MANIFEST_FILE), "utf-8");
-    /** @type {BundleInfo} */
-    const manifest = JSON.parse(manifestFile);
-
-    const bundle = await fsPromises.readFile(path.join(LOCAL_OUT_DIR, manifest.sha));
-    return uploadBundle(bundle, manifest, deployId, apiToken);
-  },
 };
