@@ -4,16 +4,16 @@ const path = require("path");
 
 const nodeBabel = require("@rollup/plugin-babel");
 const commonjs = require("@rollup/plugin-commonjs");
+const json = require("@rollup/plugin-json");
 const nodeResolve = require("@rollup/plugin-node-resolve");
 const makeDir = require("make-dir");
 const rollup = require("rollup");
-const json = require("@rollup/plugin-json");
 
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
 
-const uploadBundle = require("./upload");
 const { LOCAL_OUT_DIR, MANIFEST_FILE, MAIN_FILE, CONTENT_TYPE } = require("./consts");
+const uploadBundle = require("./upload");
 
 /**
  * Generates an entrypoint for bundling the handlers
