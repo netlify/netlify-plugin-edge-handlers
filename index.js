@@ -7,7 +7,6 @@ const commonjs = require("@rollup/plugin-commonjs");
 const nodeResolve = require("@rollup/plugin-node-resolve");
 const makeDir = require("make-dir");
 const rollup = require("rollup");
-const esbuild = require("rollup-plugin-esbuild");
 const json = require("@rollup/plugin-json");
 
 const babel = nodeBabel.babel;
