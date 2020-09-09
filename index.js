@@ -99,6 +99,10 @@ async function bundleFunctions(file) {
 }
 
 /**
+ * @typedef {{ sha: string, handlers: string[], content_length: number, content_type: string }} BundleInfo
+ */
+
+/**
  * Writes out the bundled code to disk along with any meta info
  *
  * @param {string} bundle bundled code
@@ -114,8 +118,9 @@ async function writeBundle(bundle, handlers, outputDir, isLocal) {
   const shasum = crypto.createHash("sha1");
   shasum.update(buf);
 
+  /** @type {BundleInfo} */
   const bundleInfo = {
-    shaSum: shasum.digest("hex"),
+    sha: shasum.digest("hex"),
     handlers,
     // needs to have length of the byte representation, not the string length
     content_length: buf.length,
