@@ -13,6 +13,8 @@ const json = require("@rollup/plugin-json");
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
 
+const LOCAL_OUT_DIR = ".netlify/edge-handlers";
+const MANIFEST_FILE = "manifest.json";
 const MAIN_FILE = "__netlifyMain.ts";
 const TYPES_FILE = "__netlifyTypes.d.ts";
 const CONTENT_TYPE = "application/javascript";
@@ -62,29 +64,40 @@ async function bundleFunctions(file) {
       }),
     ],
   };
+
   const bundle = await rollup.rollup(options);
-  const { output } = await bundle.generate({
+  const {
+    output: [{ code }],
+  } = await bundle.generate({
     format: "iife",
   });
-  return output;
+  return code;
 }
 
-async function writeBundle(buf, output, isLocal) {
-  buf = buf[0].code;
+async function writeBundle(bundle, outputDir, isLocal) {
+  // encode bundle into bytes
+  const buf = Buffer.from(bundle, "utf-8");
+
   const shasum = crypto.createHash("sha1");
   shasum.update(buf);
 
   const bundleInfo = {
     sha: shasum.digest("hex"),
+    // needs to have length of the byte representation, not the string length
     content_length: buf.length,
     content_type: CONTENT_TYPE,
   };
-  console.log(bundleInfo);
 
   if (isLocal) {
-    await makeDir(output);
-    const outputFile = path.join(output, bundleInfo.sha);
-    await fsPromises.writeFile(outputFile, buf);
+    await makeDir(outputDir);
+
+    // bundled handlers
+    const outputFile = path.join(outputDir, bundleInfo.sha);
+    await fsPromises.writeFile(outputFile, bundle, "utf-8");
+
+    // manifest
+    const manifestFile = path.join(outputDir, MANIFEST_FILE);
+    await fsPromises.writeFile(manifestFile, JSON.stringify(bundleInfo));
   }
 }
 
@@ -92,6 +105,6 @@ module.exports = {
   onPostBuild: async ({ inputs }) => {
     const { mainFile } = await assemble(inputs.sourceDir);
     const bundle = await bundleFunctions(mainFile);
-    await writeBundle(bundle, path.join(__dirname, "handlers-build"), true);
+    await writeBundle(bundle, path.join(__dirname, LOCAL_OUT_DIR), true);
   },
 };
