@@ -4,11 +4,13 @@
     "module": "commonjs",
     "lib": [],
     "declaration": false,
-    "outDir": "./",
-    "rootDir": "./src",
+    "resolveJsonModule": true,
+    "outDir": "./edge-handlers",
+    "rootDir": "./edge-handlers/src",
     "strict": true /* Enable all strict type-checking options. */,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
+  "include": ["edge-handlers/**/*.ts"],
   "exclude": ["integration-test/**/*", "dist/**/*"]
 }

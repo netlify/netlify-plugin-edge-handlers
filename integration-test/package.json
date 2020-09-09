@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prebuild": "tsc",
+    "build": "netlify-build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,5 +15,8 @@
     "@types/lodash": "^4.14.160",
     "date-fns": "^2.15.0",
     "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.2"
   }
 }
