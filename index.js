@@ -7,7 +7,6 @@ const commonjs = require("@rollup/plugin-commonjs");
 const nodeResolve = require("@rollup/plugin-node-resolve");
 const makeDir = require("make-dir");
 const rollup = require("rollup");
-const esbuild = require("rollup-plugin-esbuild");
 const json = require("@rollup/plugin-json");
 
 const babel = nodeBabel.babel;
@@ -16,7 +15,6 @@ const resolve = nodeResolve.nodeResolve;
 const LOCAL_OUT_DIR = path.join(process.cwd(), ".netlify", "edge-handlers");
 const MANIFEST_FILE = "manifest.json";
 const MAIN_FILE = "__netlifyMain.ts";
-const TYPES_FILE = "__netlifyTypes.d.ts";
 const CONTENT_TYPE = "application/javascript";
 
 /**
@@ -28,7 +26,6 @@ const CONTENT_TYPE = "application/javascript";
  */
 async function assemble(src) {
   const tmpDir = await fsPromises.mkdtemp("handlers-"); //make temp dir `handlers-abc123`
-  await fsPromises.copyFile(path.join(__dirname, "types.d.ts"), path.join(tmpDir, TYPES_FILE));
   const handlers = [];
   let imports = "";
   let registration = "";
@@ -47,11 +44,31 @@ async function assemble(src) {
   }
 
   // import path //
-  const mainContents = `/// <reference path="./${TYPES_FILE}" />\n` + imports + registration;
+  const mainContents = imports + registration;
   const mainFile = path.join(tmpDir, MAIN_FILE);
   await fsPromises.writeFile(mainFile, mainContents);
   return { handlers, mainFile };
 }
+
+/**
+ * @type {import("@rollup/plugin-babel").RollupBabelInputPluginOptions}
+ */
+const babelConfig = {
+  exclude: "node_modules/**",
+  babelHelpers: "bundled",
+  babelrc: false,
+  configFile: false,
+  presets: [
+    [
+      "@babel/preset-env",
+      {
+        targets: {
+          chrome: "87", // latest beta release as of this commit (V8 8.6)
+        },
+      },
+    ],
+  ],
+};
 
 /**
  * Bundles the handler code based on a generated entrypoint
@@ -63,13 +80,7 @@ async function bundleFunctions(file) {
   const options = {
     input: file,
     plugins: [
-      esbuild({
-        target: "es2018",
-      }),
-      babel({
-        exclude: "node_modules/**",
-        babelHelpers: "bundled",
-      }),
+      babel(babelConfig),
       resolve(),
       commonjs(),
       json({
