@@ -3,8 +3,6 @@ ignore = "false"
 
 [[plugins]]
 package = "../"
-  [plugins.inputs]
-  sourceDir = "edge-handlers"
 
 [[redirects]]
 from = "/"
