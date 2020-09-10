@@ -88,6 +88,11 @@ async function bundleFunctions(file) {
         compact: true,
       }),
     ],
+    onwarn(msg) {
+      if (msg.code == "UNRESOLVED_IMPORT") {
+        throw new Error(`Could not resolve ${msg.source} module. Please install this locally`);
+      }
+    },
   };
 
   const bundle = await rollup.rollup(options);
