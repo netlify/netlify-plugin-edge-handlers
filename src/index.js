@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const { promises: fsPromises } = require("fs");
+const os = require("os");
 const path = require("path");
 
 const nodeBabel = require("@rollup/plugin-babel");
@@ -23,26 +24,28 @@ const uploadBundle = require("./upload");
  * @returns {Promise<{ handlers: string[], mainFile: string }>} list of handlers and path to entrypoint
  */
 async function assemble(src) {
-  const tmpDir = await fsPromises.mkdtemp("handlers-"); //make temp dir `handlers-abc123`
+  const tmpDir = await fsPromises.mkdtemp(path.join(os.tmpdir(), "handlers-")); //make temp dir `handlers-abc123`
   const handlers = [];
-  let imports = "";
-  let registration = "";
+  const imports = [];
+  const registration = [];
   const functions = await fsPromises.readdir(src, { withFileTypes: true });
+
   for (const func of functions) {
-    if (!func.isFile() || (!func.name.endsWith(".js") && !func.name.endsWith(".ts"))) {
+    const file = path.parse(func.name);
+
+    if (!func.isFile() || (file.ext !== ".js" && file.ext !== ".ts")) {
       continue;
     }
 
     const id = "func" + crypto.randomBytes(16).toString("hex");
-    const name = func.name.substr(0, func.name.length - 3); // remove extension //
-    imports += `import * as ${id} from "${path.resolve(src, func.name)}";\n`;
-    registration += `netlifyRegistry.set("${name}", ${id});\n`;
 
-    handlers.push(func.name);
+    imports.push(`import * as ${id} from "${path.resolve(src, file.name)}";`);
+    registration.push(`netlifyRegistry.set("${file.name}", ${id});`);
+    handlers.push(file.name);
   }
 
   // import path //
-  const mainContents = imports + registration;
+  const mainContents = imports.concat(registration).join("\n");
   const mainFile = path.join(tmpDir, MAIN_FILE);
   await fsPromises.writeFile(mainFile, mainContents);
   return { handlers, mainFile };
@@ -131,7 +134,7 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
 
     // manifest
     const manifestFile = path.join(outputDir, MANIFEST_FILE);
-    await fsPromises.writeFile(manifestFile, JSON.stringify(bundleInfo));
+    await fsPromises.writeFile(manifestFile, JSON.stringify(bundleInfo, null, 2));
   } else {
     await uploadBundle(buf, bundleInfo, process.env.DEPLOY_ID, apiToken);
   }
