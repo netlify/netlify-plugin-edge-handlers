@@ -147,9 +147,19 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
   }
 }
 
+function logHandlers(handlers, sourceDir) {
+  const handlersString = handlers.map(serializeHandler).join("\n");
+  console.log(`Packaging Edge handlers from ${sourceDir} directory:\n${handlersString}`);
+}
+
+function serializeHandler(handler) {
+  return ` - ${handler}`;
+}
+
 module.exports = {
-  onPostBuild: async ({ inputs, constants, utils }) => {
-    const { mainFile, handlers } = await assemble(inputs.sourceDir);
+  onPostBuild: async ({ inputs: { sourceDir }, constants, utils }) => {
+    const { mainFile, handlers } = await assemble(sourceDir);
+    logHandlers(handlers, sourceDir);
     const bundle = await bundleFunctions(mainFile, utils);
     await publishBundle(bundle, handlers, LOCAL_OUT_DIR, constants.IS_LOCAL, constants.NETLIFY_API_TOKEN);
   },
