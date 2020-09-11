@@ -77,7 +77,7 @@ const babelConfig = {
  * @param {string} file path of the entrypoint file
  * @returns {Promise<string>} bundled code
  */
-async function bundleFunctions(file) {
+async function bundleFunctions(file, utils) {
   const options = {
     input: file,
     plugins: [
@@ -90,7 +90,9 @@ async function bundleFunctions(file) {
     ],
     onwarn(msg) {
       if (msg.code == "UNRESOLVED_IMPORT") {
-        throw new Error(`Could not resolve ${msg.source} module. Please install this locally`);
+        utils.build.failBuild(
+          `Error in ${msg.importer}, could not resolve ${msg.source} module. Please install this dependency locally and ensure it is listed in your package.json`,
+        );
       }
     },
   };
@@ -146,9 +148,9 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
 }
 
 module.exports = {
-  onPostBuild: async ({ inputs, constants }) => {
+  onPostBuild: async ({ inputs, constants, utils }) => {
     const { mainFile, handlers } = await assemble(inputs.sourceDir);
-    const bundle = await bundleFunctions(mainFile);
+    const bundle = await bundleFunctions(mainFile, utils);
     await publishBundle(bundle, handlers, LOCAL_OUT_DIR, constants.IS_LOCAL, constants.NETLIFY_API_TOKEN);
   },
 };
