@@ -20,35 +20,39 @@ const uploadBundle = require("./upload");
  * Generates an entrypoint for bundling the handlers
  * It also makes sure all handlers are registered with the runtime
  *
- * @param {string} src path to the edge handler directory
+ * @param {string} sourceDir path to the edge handler directory
  * @returns {Promise<{ handlers: string[], mainFile: string }>} list of handlers and path to entrypoint
  */
-async function assemble(src) {
-  const tmpDir = await fsPromises.mkdtemp(path.join(os.tmpdir(), "handlers-")); //make temp dir `handlers-abc123`
-  const handlers = [];
-  const imports = [];
-  const registration = [];
-  const functions = await fsPromises.readdir(src, { withFileTypes: true });
+async function assemble(sourceDir) {
+  const entries = await fsPromises.readdir(sourceDir, { withFileTypes: true });
+  const handlers = entries.filter(isHandlerFile).map(getFilename);
 
-  for (const func of functions) {
-    const file = path.parse(func.name);
-
-    if (!func.isFile() || (file.ext !== ".js" && file.ext !== ".ts")) {
-      continue;
-    }
-
-    const id = "func" + crypto.randomBytes(16).toString("hex");
-
-    imports.push(`import * as ${id} from "${path.resolve(src, file.name)}";`);
-    registration.push(`netlifyRegistry.set("${file.name}", ${id});`);
-    handlers.push(file.name);
+  if (handlers.length === 0) {
+    return { handlers };
   }
 
-  // import path //
+  const imports = [];
+  const registration = [];
+  for (const handler of handlers) {
+    const id = "func" + crypto.randomBytes(16).toString("hex");
+
+    imports.push(`import * as ${id} from "${path.resolve(sourceDir, handler)}";`);
+    registration.push(`netlifyRegistry.set("${handler}", ${id});`);
+  }
   const mainContents = imports.concat(registration).join("\n");
+
+  const tmpDir = await fsPromises.mkdtemp(path.join(os.tmpdir(), "handlers-")); //make temp dir `handlers-abc123`
   const mainFile = path.join(tmpDir, MAIN_FILE);
   await fsPromises.writeFile(mainFile, mainContents);
   return { handlers, mainFile };
+}
+
+function isHandlerFile(entry) {
+  return path.extname(entry.name) === ".js" && entry.isFile();
+}
+
+function getFilename(entry) {
+  return path.basename(entry.name, path.extname(entry.name));
 }
 
 /**
@@ -159,6 +163,12 @@ function serializeHandler(handler) {
 module.exports = {
   onPostBuild: async ({ inputs: { sourceDir }, constants, utils }) => {
     const { mainFile, handlers } = await assemble(sourceDir);
+
+    if (handlers.length === 0) {
+      console.log(`No Edge handlers were found in ${sourceDir} directory`);
+      return;
+    }
+
     logHandlers(handlers, sourceDir);
     const bundle = await bundleFunctions(mainFile, utils);
     await publishBundle(bundle, handlers, LOCAL_OUT_DIR, constants.IS_LOCAL, constants.NETLIFY_API_TOKEN);
