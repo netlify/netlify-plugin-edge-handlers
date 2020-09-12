@@ -6,6 +6,6 @@ export async function onRequest(ev) {
   const state = req.headers.get("X-NF-Subdivision-Code");
   const data = state && td.find((el) => el.state === state);
   var array = [1];
-  var other = concat(array, 2, [3], [4]);
+  var other = concat(array, 2, [3], [4], data.positive);
   console.log(other);
 }
