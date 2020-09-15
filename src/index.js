@@ -65,7 +65,7 @@ const babelConfig = {
   configFile: false,
   presets: [
     [
-      "@babel/preset-env",
+      require("@babel/preset-env"),
       {
         targets: {
           chrome: "87", // latest beta release as of this commit (V8 8.6)
