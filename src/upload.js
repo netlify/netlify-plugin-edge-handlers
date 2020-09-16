@@ -16,6 +16,10 @@ const { API_HOST, CONTENT_TYPE } = require("./consts");
  * @returns {Promise<boolean>} Whether the bundle was newly uploaded (and did not already exist)
  */
 async function uploadBundle(buf, info, deployId, apiToken) {
+  if (!apiToken) {
+    throw new Error("API token is missing");
+  }
+
   const resp = await fetch(`https://${API_HOST}/api/v1/deploys/${deployId}/edge_handlers`, {
     method: "POST",
     body: JSON.stringify(info),
