@@ -16,16 +16,19 @@ const { API_HOST, CONTENT_TYPE } = require("./consts");
  * @returns {Promise<boolean>} Whether the bundle was newly uploaded (and did not already exist)
  */
 async function uploadBundle(buf, info, deployId, apiToken) {
-  const resp = await fetch(`https://${API_HOST}/api/v1/deploys/${deployId}/edge_handlers`, {
+  const opts = {
     method: "POST",
     body: JSON.stringify(info),
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${apiToken}`,
     },
-  });
+  };
+  console.log("Doing req with:", opts);
+  const resp = await fetch(`https://${API_HOST}/api/v1/deploys/${deployId}/edge_handlers`, opts);
 
   if (!resp.ok) {
+    console.error("Got resp:", await resp.text());
     throw new Error(`Invalid status: ${resp.status}`);
   }
 
