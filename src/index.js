@@ -147,7 +147,10 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
     const manifestFile = path.join(outputDir, MANIFEST_FILE);
     await fsPromises.writeFile(manifestFile, JSON.stringify(bundleInfo, null, 2));
   } else {
-    await uploadBundle(buf, bundleInfo, process.env.DEPLOY_ID, apiToken);
+    const uploaded = await uploadBundle(buf, bundleInfo, process.env.DEPLOY_ID, apiToken);
+    if (!uploaded) {
+      console.log("Bundle already exists. Skipping upload...");
+    }
   }
 }
 

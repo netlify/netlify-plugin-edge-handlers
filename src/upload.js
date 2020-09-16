@@ -38,7 +38,6 @@ async function uploadBundle(buf, info, deployId, apiToken) {
     throw new Error(`Failed to upload: ${error}`);
   }
   if (exists) {
-    console.log("Bundle already exists. Skipping upload...");
     return false;
   }
   if (!upload_url) {
