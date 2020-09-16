@@ -11,7 +11,10 @@
     "test:dev": "ava",
     "test:ci": "nyc -r lcovonly -r text -r json ava"
   },
-  "keywords": [],
+  "keywords": [
+    "netlify",
+    "netlify-plugin"
+  ],
   "author": "Netlify Inc.",
   "license": "MIT",
   "dependencies": {
@@ -26,6 +29,13 @@
     "node-fetch": "^2.6.1",
     "rollup": "^2.23.1",
     "typescript": "^3.9.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netlify/netlify-plugin-edge-handlers.git"
+  },
+  "bugs": {
+    "url": "https://github.com/netlify/netlify-plugin-edge-handlers/issues"
   },
   "engines": {
     "node": "^10.17.0 || >=11.14.0"
