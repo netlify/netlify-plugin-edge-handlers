@@ -2,3 +2,5 @@ node_modules/
 .eslintcache
 .nyc_output
 coverage
+# Local Netlify folder
+.netlify

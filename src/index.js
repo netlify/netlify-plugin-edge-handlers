@@ -20,11 +20,11 @@ const uploadBundle = require("./upload");
  * Generates an entrypoint for bundling the handlers
  * It also makes sure all handlers are registered with the runtime
  *
- * @param {string} sourceDir path to the edge handler directory
+ * @param {string} EDGE_HANDLERS_SRC path to the edge handler directory
  * @returns {Promise<{ handlers: string[], mainFile: string }>} list of handlers and path to entrypoint
  */
-async function assemble(sourceDir) {
-  const entries = await fsPromises.readdir(sourceDir, { withFileTypes: true });
+async function assemble(EDGE_HANDLERS_SRC) {
+  const entries = await fsPromises.readdir(EDGE_HANDLERS_SRC, { withFileTypes: true });
   const handlers = entries.filter(isHandlerFile).map(getFilename);
 
   if (handlers.length === 0) {
@@ -36,7 +36,7 @@ async function assemble(sourceDir) {
   for (const handler of handlers) {
     const id = "func" + crypto.randomBytes(16).toString("hex");
 
-    imports.push(`import * as ${id} from "${path.resolve(sourceDir, handler)}";`);
+    imports.push(`import * as ${id} from "${path.resolve(EDGE_HANDLERS_SRC, handler)}";`);
     registration.push(`netlifyRegistry.set("${handler}", ${id});`);
   }
   const mainContents = imports.concat(registration).join("\n");
@@ -154,9 +154,9 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
   }
 }
 
-function logHandlers(handlers, sourceDir) {
+function logHandlers(handlers, EDGE_HANDLERS_SRC) {
   const handlersString = handlers.map(serializeHandler).join("\n");
-  console.log(`Packaging Edge handlers from ${sourceDir} directory:\n${handlersString}`);
+  console.log(`Packaging Edge handlers from ${EDGE_HANDLERS_SRC} directory:\n${handlersString}`);
 }
 
 function serializeHandler(handler) {
@@ -164,16 +164,16 @@ function serializeHandler(handler) {
 }
 
 module.exports = {
-  onPostBuild: async ({ inputs: { sourceDir }, constants, utils }) => {
-    const { mainFile, handlers } = await assemble(sourceDir);
+  onPostBuild: async ({ constants: { IS_LOCAL, NETLIFY_API_TOKEN, EDGE_HANDLERS_SRC }, utils }) => {
+    const { mainFile, handlers } = await assemble(EDGE_HANDLERS_SRC);
 
     if (handlers.length === 0) {
-      console.log(`No Edge handlers were found in ${sourceDir} directory`);
+      console.log(`No Edge handlers were found in ${EDGE_HANDLERS_SRC} directory`);
       return;
     }
 
-    logHandlers(handlers, sourceDir);
+    logHandlers(handlers, EDGE_HANDLERS_SRC);
     const bundle = await bundleFunctions(mainFile, utils);
-    await publishBundle(bundle, handlers, LOCAL_OUT_DIR, constants.IS_LOCAL, constants.NETLIFY_API_TOKEN);
+    await publishBundle(bundle, handlers, LOCAL_OUT_DIR, IS_LOCAL, NETLIFY_API_TOKEN);
   },
 };
