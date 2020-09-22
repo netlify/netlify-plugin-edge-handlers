@@ -41,7 +41,7 @@
     "node": "^10.17.0 || >=11.14.0"
   },
   "devDependencies": {
-    "@netlify/build": "^3.3.5",
+    "@netlify/build": "^4.1.1",
     "ava": "^3.12.1",
     "date-fns": "^2.15.0",
     "eslint": "^7.7.0",
