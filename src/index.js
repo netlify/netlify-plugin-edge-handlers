@@ -8,6 +8,7 @@ const commonjs = require("@rollup/plugin-commonjs");
 const json = require("@rollup/plugin-json");
 const nodeResolve = require("@rollup/plugin-node-resolve");
 const makeDir = require("make-dir");
+const { isDirectory } = require("path-type");
 const rollup = require("rollup");
 
 const babel = nodeBabel.babel;
@@ -165,6 +166,10 @@ function serializeHandler(handler) {
 
 module.exports = {
   onPostBuild: async ({ constants: { IS_LOCAL, NETLIFY_API_TOKEN, EDGE_HANDLERS_SRC }, utils }) => {
+    if (!(await isDirectory(EDGE_HANDLERS_SRC))) {
+      return utils.build.failBuild(`Edge handlers directory does not exist: ${EDGE_HANDLERS_SRC}`);
+    }
+
     const { mainFile, handlers } = await assemble(EDGE_HANDLERS_SRC);
 
     if (handlers.length === 0) {

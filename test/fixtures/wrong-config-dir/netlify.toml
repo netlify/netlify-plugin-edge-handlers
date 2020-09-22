@@ -1,0 +1,5 @@
+[build]
+edge_handlers = "does-not-exist"
+
+[[plugins]]
+package = "../../.."
