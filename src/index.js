@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const { promises: fsPromises } = require("fs");
 const os = require("os");
 const path = require("path");
+const process = require("process");
 
 const nodeBabel = require("@rollup/plugin-babel");
 const commonjs = require("@rollup/plugin-commonjs");
@@ -37,7 +38,7 @@ async function assemble(EDGE_HANDLERS_SRC) {
   for (const handler of handlers) {
     const id = "func" + crypto.randomBytes(16).toString("hex");
 
-    imports.push(`import * as ${id} from "${path.resolve(EDGE_HANDLERS_SRC, handler)}";`);
+    imports.push(`import * as ${id} from "${unixify(path.resolve(EDGE_HANDLERS_SRC, handler))}";`);
     registration.push(`netlifyRegistry.set("${handler}", ${id});`);
   }
   const mainContents = imports.concat(registration).join("\n");
@@ -47,6 +48,17 @@ async function assemble(EDGE_HANDLERS_SRC) {
   await fsPromises.writeFile(mainFile, mainContents);
   return { handlers, mainFile };
 }
+
+// ES modules requires forward slashes
+function unixify(filePath) {
+  if (process.platform !== "win32") {
+    return filePath;
+  }
+
+  return filePath.replace(UNIXIFY_REGEXP, "/");
+}
+
+const UNIXIFY_REGEXP = /\\/g;
 
 function isHandlerFile(entry) {
   return path.extname(entry.name) === ".js" && entry.isFile();
