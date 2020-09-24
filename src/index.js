@@ -18,6 +18,12 @@ const resolve = nodeResolve.nodeResolve;
 const { LOCAL_OUT_DIR, MANIFEST_FILE, MAIN_FILE, CONTENT_TYPE } = require("./consts");
 const uploadBundle = require("./upload");
 
+function getShasum(buf) {
+  const shasum = crypto.createHash("sha1");
+  shasum.update(buf);
+  return shasum.digest("hex");
+}
+
 /**
  * Generates an entrypoint for bundling the handlers
  * It also makes sure all handlers are registered with the runtime
@@ -36,7 +42,7 @@ async function assemble(EDGE_HANDLERS_SRC) {
   const imports = [];
   const registration = [];
   for (const handler of handlers) {
-    const id = "func" + crypto.randomBytes(16).toString("hex");
+    const id = `func${getShasum(Buffer.from(handler))}`;
 
     imports.push(`import * as ${id} from "${unixify(path.resolve(EDGE_HANDLERS_SRC, handler))}";`);
     registration.push(`netlifyRegistry.set("${handler}", ${id});`);
@@ -136,13 +142,11 @@ async function bundleFunctions(file, utils) {
 async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
   // encode bundle into bytes
   const buf = Buffer.from(bundle, "utf-8");
-
-  const shasum = crypto.createHash("sha1");
-  shasum.update(buf);
+  const sha = getShasum(buf);
 
   /** @type {import("./upload").BundleInfo} */
   const bundleInfo = {
-    sha: shasum.digest("hex"),
+    sha,
     handlers,
     // needs to have length of the byte representation, not the string length
     content_length: buf.length,
