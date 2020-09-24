@@ -142,7 +142,7 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
 
   /** @type {import("./upload").BundleInfo} */
   const bundleInfo = {
-    sha: shasum.digest("hex"),
+    sha: `${shasum.digest("hex")}.js`,
     handlers,
     // needs to have length of the byte representation, not the string length
     content_length: buf.length,
