@@ -177,7 +177,7 @@ function serializeHandler(handler) {
 }
 
 module.exports = {
-  onPostBuild: async ({ constants: { IS_LOCAL, NETLIFY_API_TOKEN, EDGE_HANDLERS_SRC }, utils }) => {
+  onBuild: async ({ constants: { IS_LOCAL, NETLIFY_API_TOKEN, EDGE_HANDLERS_SRC }, utils }) => {
     if (!(await isDirectory(EDGE_HANDLERS_SRC))) {
       return utils.build.failBuild(`Edge handlers directory does not exist: ${EDGE_HANDLERS_SRC}`);
     }
