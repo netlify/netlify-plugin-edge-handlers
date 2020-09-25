@@ -1,17 +1,19 @@
 const isPlainObj = require("is-plain-obj");
 const sinon = require("sinon");
 
+const { resolveFixtureName } = require("./fixtures");
 const { normalizeHandler, isValidHandler } = require("./handler");
 
 // Retrieve Edge handlers bundled handlers
-const loadBundle = function (t, fixtureDir) {
-  const { manifest, bundlePath } = loadManifest(t, fixtureDir);
+const loadBundle = function (t, fixtureName) {
+  const { manifest, bundlePath } = loadManifest(t, fixtureName);
   const handlers = requireBundle(t, bundlePath);
   return { manifest, handlers };
 };
 
 // Load Edge handlers `manifest.json`
-const loadManifest = function (t, fixtureDir) {
+const loadManifest = function (t, fixtureName) {
+  const fixtureDir = resolveFixtureName(fixtureName);
   const localOutDir = `${fixtureDir}/.netlify/edge-handlers`;
   const manifestPath = `${localOutDir}/manifest.json`;
   const manifest = require(manifestPath);
