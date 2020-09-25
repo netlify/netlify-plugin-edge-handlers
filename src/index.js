@@ -133,6 +133,8 @@ async function bundleFunctions(file, utils) {
     });
     return code;
   } catch (error) {
+    // This will stop the execution of this plugin.
+    // No Edge handlers will be uploaded.
     return utils.build.failBuild("Error while bundling Edge handlers", { error });
   }
 }
