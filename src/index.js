@@ -128,6 +128,7 @@ async function bundleFunctions(file, utils) {
     output: [{ code }],
   } = await bundle.generate({
     format: "iife",
+    compact: true,
   });
   return code;
 }
