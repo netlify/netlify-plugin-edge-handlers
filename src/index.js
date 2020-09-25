@@ -123,14 +123,20 @@ async function bundleFunctions(file, utils) {
     },
   };
 
-  const bundle = await rollup.rollup(options);
-  const {
-    output: [{ code }],
-  } = await bundle.generate({
-    format: "iife",
-    compact: true,
-  });
-  return code;
+  try {
+    const bundle = await rollup.rollup(options);
+    const {
+      output: [{ code }],
+    } = await bundle.generate({
+      format: "iife",
+      compact: true,
+    });
+    return code;
+  } catch (error) {
+    // This will stop the execution of this plugin.
+    // No Edge handlers will be uploaded.
+    return utils.build.failBuild("Error while bundling Edge handlers", { error });
+  }
 }
 
 /**

@@ -8,6 +8,7 @@ const FIXTURES_DIR = `${__dirname}/fixtures`;
 const INTEGRATION_TEST_DIR = `${FIXTURES_DIR}/integration-test`;
 const CONFIG_FIXTURE_DIR = `${FIXTURES_DIR}/config-dir`;
 const WRONG_CONFIG_FIXTURE_DIR = `${FIXTURES_DIR}/wrong-config-dir`;
+const SYNTAX_ERROR_FIXTURE_DIR = `${FIXTURES_DIR}/syntax-error`;
 
 test("Edge handlers should be bundled", async (t) => {
   await runNetlifyBuild(t, INTEGRATION_TEST_DIR);
@@ -34,4 +35,9 @@ test("Edge handlers directory can be configured using build.edge_handlers", asyn
 test("Edge handlers directory build.edge_handlers misconfiguration is reported", async (t) => {
   const { output } = await runNetlifyBuild(t, WRONG_CONFIG_FIXTURE_DIR, { expectedSuccess: false });
   t.true(output.includes("does-not-exist"));
+});
+
+test("Edge handlers directory build.edge_handlers syntax error is reported", async (t) => {
+  const { output } = await runNetlifyBuild(t, SYNTAX_ERROR_FIXTURE_DIR, { expectedSuccess: false });
+  t.true(output.includes("Error while bundling"));
 });
