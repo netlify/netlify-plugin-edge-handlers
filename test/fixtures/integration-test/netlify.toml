@@ -2,7 +2,7 @@
 ignore = "false"
 
 [[plugins]]
-package = "../"
+package = "../../.."
 
 [[redirects]]
 from = "/"
