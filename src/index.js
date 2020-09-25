@@ -8,6 +8,7 @@ const nodeBabel = require("@rollup/plugin-babel");
 const commonjs = require("@rollup/plugin-commonjs");
 const json = require("@rollup/plugin-json");
 const nodeResolve = require("@rollup/plugin-node-resolve");
+const del = require("del");
 const makeDir = require("make-dir");
 const { isDirectory } = require("path-type");
 const rollup = require("rollup");
@@ -154,6 +155,9 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
   };
 
   if (isLocal) {
+    // cleanup previous handlers
+    await del(outputDir);
+
     await makeDir(outputDir);
 
     // bundled handlers
