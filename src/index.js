@@ -112,12 +112,14 @@ async function bundleFunctions(file, utils) {
         compact: true,
       }),
     ],
-    onwarn(msg) {
+    onwarn(msg, warn) {
       if (msg.code == "UNRESOLVED_IMPORT") {
-        utils.build.failBuild(
+        return utils.build.failBuild(
           `Error in ${msg.importer}, could not resolve ${msg.source} module. Please install this dependency locally and ensure it is listed in your package.json`,
         );
       }
+
+      warn(msg);
     },
   };
 
