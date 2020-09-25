@@ -12,6 +12,7 @@ const del = require("del");
 const makeDir = require("make-dir");
 const { isDirectory } = require("path-type");
 const rollup = require("rollup");
+const { terser } = require("rollup-plugin-terser");
 
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
@@ -111,6 +112,7 @@ async function bundleFunctions(file, utils) {
       json({
         compact: true,
       }),
+      terser()
     ],
     onwarn(msg, warn) {
       if (msg.code == "UNRESOLVED_IMPORT") {
