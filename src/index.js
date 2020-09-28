@@ -40,14 +40,13 @@ async function assemble(EDGE_HANDLERS_SRC) {
     return { handlers };
   }
 
-  const imports = [];
-  const registration = [];
-  for (const [index, handler] of handlers.entries()) {
-    const id = `func${index}`;
-    imports.push(`import * as ${id} from "${unixify(path.resolve(EDGE_HANDLERS_SRC, handler))}";`);
-    registration.push(`netlifyRegistry.set("${handler}", ${id});`);
-  }
-  const mainContents = imports.concat(registration).join("\n");
+  const mainContents = handlers
+    .map(
+      (handler, index) => `
+import * as func${index} from "${unixify(path.resolve(EDGE_HANDLERS_SRC, handler))}";
+netlifyRegistry.set("${handler}", func${index});`,
+    )
+    .join("\n");
 
   const tmpDir = await fsPromises.mkdtemp(path.join(os.tmpdir(), "handlers-")); //make temp dir `handlers-abc123`
   const mainFile = path.join(tmpDir, MAIN_FILE);
