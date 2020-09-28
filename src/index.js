@@ -42,9 +42,8 @@ async function assemble(EDGE_HANDLERS_SRC) {
 
   const imports = [];
   const registration = [];
-  for (const handler of handlers) {
-    const id = `func${getShasum(Buffer.from(handler))}`;
-
+  for (const [index, handler] of handlers.entries()) {
+    const id = `func${index}`;
     imports.push(`import * as ${id} from "${unixify(path.resolve(EDGE_HANDLERS_SRC, handler))}";`);
     registration.push(`netlifyRegistry.set("${handler}", ${id});`);
   }
