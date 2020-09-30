@@ -110,7 +110,7 @@ async function bundleFunctions(file, utils) {
       json({
         compact: true,
       }),
-      terser()
+      terser(),
     ],
     onwarn(msg, warn) {
       if (msg.code == "UNRESOLVED_IMPORT") {
@@ -147,7 +147,7 @@ async function bundleFunctions(file, utils) {
  * @param {string} outputDir path to the output directory (created if not exists)
  * @param {boolean} isLocal whether we're running locally or in CI
  * @param {string | null} apiToken Netlify API token used for uploads
- * @returns {Promise<void>}
+ * @returns {Promise<boolean>}
  */
 async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
   // encode bundle into bytes
@@ -181,7 +181,10 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
     if (!uploaded) {
       console.log("Bundle already exists. Skipping upload...");
     }
+    return uploaded;
   }
+
+  return false;
 }
 
 function logHandlers(handlers, EDGE_HANDLERS_SRC) {
@@ -208,6 +211,16 @@ module.exports = {
 
     logHandlers(handlers, EDGE_HANDLERS_SRC);
     const bundle = await bundleFunctions(mainFile, utils);
-    await publishBundle(bundle, handlers, LOCAL_OUT_DIR, IS_LOCAL, NETLIFY_API_TOKEN);
+    const uploaded = await publishBundle(bundle, handlers, LOCAL_OUT_DIR, IS_LOCAL, NETLIFY_API_TOKEN);
+
+    const summaryText = uploaded
+      ? `${handlers.length} Edge Handlers deployed.`
+      : `${handlers.length} Edge Handlers did not change.`;
+    const logsLink = `https://app.netlify.com/sites/${process.env.SITE_NAME}/edge-handlers?scope=deployid:${process.env.DEPLOY_ID}`;
+
+    utils.status.show({
+      title: "Edge Handlers",
+      summary: `${summaryText} [Watch Logs](${logsLink})`,
+    });
   },
 };
