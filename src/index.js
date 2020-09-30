@@ -213,14 +213,16 @@ module.exports = {
     const bundle = await bundleFunctions(mainFile, utils);
     const uploaded = await publishBundle(bundle, handlers, LOCAL_OUT_DIR, IS_LOCAL, NETLIFY_API_TOKEN);
 
-    const summaryText = uploaded
-      ? `${handlers.length} Edge Handlers deployed.`
-      : `${handlers.length} Edge Handlers did not change.`;
-    const logsLink = `https://app.netlify.com/sites/${process.env.SITE_NAME}/edge-handlers?scope=deployid:${process.env.DEPLOY_ID}`;
+    if (!IS_LOCAL) {
+      const summaryText = uploaded
+        ? `${handlers.length} Edge Handlers deployed.`
+        : `${handlers.length} Edge Handlers did not change.`;
+      const logsLink = `https://app.netlify.com/sites/${process.env.SITE_NAME}/edge-handlers?scope=deployid:${process.env.DEPLOY_ID}`;
 
-    utils.status.show({
-      title: "Edge Handlers",
-      summary: `${summaryText} [Watch Logs](${logsLink})`,
-    });
+      utils.status.show({
+        title: "Edge Handlers",
+        summary: `${summaryText} [Watch Logs](${logsLink})`,
+      });
+    }
   },
 };
