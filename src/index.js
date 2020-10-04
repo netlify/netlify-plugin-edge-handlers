@@ -13,6 +13,8 @@ const makeDir = require("make-dir");
 const { isDirectory } = require("path-type");
 const rollup = require("rollup");
 const { terser } = require("rollup-plugin-terser");
+const nodeBuiltins = require("rollup-plugin-node-builtins");
+const nodeGlobals = require("rollup-plugin-node-globals");
 
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
@@ -105,11 +107,16 @@ async function bundleFunctions(file, utils) {
     input: file,
     plugins: [
       babel(babelConfig),
-      resolve(),
+      resolve({
+        browser: true,
+        preferBuiltins: false,
+      }),
       commonjs(),
       json({
         compact: true,
       }),
+      nodeGlobals(),
+      nodeBuiltins(),
       terser(),
     ],
     onwarn(msg, warn) {
