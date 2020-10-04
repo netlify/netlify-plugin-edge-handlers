@@ -14,7 +14,7 @@ const { isDirectory } = require("path-type");
 const rollup = require("rollup");
 const { terser } = require("rollup-plugin-terser");
 const nodeBuiltins = require("rollup-plugin-node-builtins");
-const nodeGlobals = require("rollup-plugin-node-globals");
+const nodeGlobals = require("./node-compat/globals");
 
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
