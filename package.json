@@ -30,6 +30,8 @@
     "node-fetch": "^2.6.1",
     "path-type": "^4.0.0",
     "rollup": "^2.23.1",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-terser": "^7.0.2",
     "typescript": "^3.9.7"
   },
