@@ -1,1 +1,4 @@
 name: "@netlify/plugin-edge-handlers"
+inputs:
+  - name: source
+    description: Directory where to find edge handlers
