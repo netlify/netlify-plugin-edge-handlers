@@ -105,7 +105,10 @@ async function bundleFunctions(file, utils) {
     input: file,
     plugins: [
       babel(babelConfig),
-      resolve(),
+      resolve({
+        browser: true,
+        preferBuiltins: false,
+      }),
       commonjs(),
       json({
         compact: true,
