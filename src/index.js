@@ -12,9 +12,9 @@ const del = require("del");
 const makeDir = require("make-dir");
 const { isDirectory } = require("path-type");
 const rollup = require("rollup");
-const { terser } = require("rollup-plugin-terser");
 const nodeBuiltins = require("rollup-plugin-node-builtins");
 const nodeGlobals = require("rollup-plugin-node-globals");
+const { terser } = require("rollup-plugin-terser");
 
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
@@ -218,18 +218,7 @@ module.exports = {
 
     logHandlers(handlers, EDGE_HANDLERS_SRC);
     const bundle = await bundleFunctions(mainFile, utils);
-    const uploaded = await publishBundle(bundle, handlers, LOCAL_OUT_DIR, IS_LOCAL, NETLIFY_API_TOKEN);
+    await publishBundle(bundle, handlers, LOCAL_OUT_DIR, IS_LOCAL, NETLIFY_API_TOKEN);
 
-    if (!IS_LOCAL) {
-      const summaryText = uploaded
-        ? `${handlers.length} Edge Handlers deployed.`
-        : `${handlers.length} Edge Handlers did not change.`;
-      const logsLink = `https://app.netlify.com/sites/${process.env.SITE_NAME}/edge-handlers?scope=deployid:${process.env.DEPLOY_ID}`;
-
-      utils.status.show({
-        title: "Edge Handlers",
-        summary: `${summaryText} [Watch Logs](${logsLink})`,
-      });
-    }
   },
 };
