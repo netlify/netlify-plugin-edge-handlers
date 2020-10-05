@@ -12,14 +12,14 @@ const del = require("del");
 const makeDir = require("make-dir");
 const { isDirectory } = require("path-type");
 const rollup = require("rollup");
-const { terser } = require("rollup-plugin-terser");
 const nodeBuiltins = require("rollup-plugin-node-builtins");
-const nodeGlobals = require("rollup-plugin-node-globals");
+const { terser } = require("rollup-plugin-terser");
 
 const babel = nodeBabel.babel;
 const resolve = nodeResolve.nodeResolve;
 
 const { LOCAL_OUT_DIR, MANIFEST_FILE, MAIN_FILE, CONTENT_TYPE } = require("./consts");
+const nodeGlobals = require("./node-compat/globals");
 const uploadBundle = require("./upload");
 
 function getShasum(buf) {
