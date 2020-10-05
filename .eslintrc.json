@@ -35,6 +35,16 @@
         "node/no-unpublished-require": 0,
         "node/no-missing-require": 0
       }
+    },
+    {
+      "files": ["src/node-compat/assets/*.js"],
+      "parserOptions": {
+        "sourceType": "module"
+      },
+      "rules": {
+        "node/no-unsupported-features/es-syntax": 0,
+        "no-undef": 0
+      }
     }
   ]
 }
