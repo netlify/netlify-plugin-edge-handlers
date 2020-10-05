@@ -1,6 +1,7 @@
-const inject = require("@rollup/plugin-inject");
-const { dirname } = require("path");
 const { randomBytes } = require("crypto");
+const { dirname } = require("path");
+
+const inject = require("@rollup/plugin-inject");
 
 const PROCESS_PATH = require.resolve("process-es6");
 const BUFFER_PATH = require.resolve("buffer-es6");
