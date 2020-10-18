@@ -32,8 +32,10 @@ const runCliBuild = async (fixtureName, subdir) => {
   const cliPath = path.join(path.dirname(path.dirname(__dirname)), "src/cli.js");
   const fixturePath = path.join(path.dirname(__dirname), "fixtures", fixtureName, subdir || "edge-handlers");
 
+  const options = { maxBuffer: 1024 * 1024 * 32, windowsHide: true };
+
   const output = await new Promise((res, rej) => {
-    childProcess.execFile(cliPath, ["build", fixturePath], (err, stdout) => {
+    childProcess.exec(`node ${cliPath} build ${fixturePath}`, options, (err, stdout) => {
       if (err) {
         rej(err);
       } else {
