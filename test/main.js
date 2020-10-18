@@ -2,7 +2,7 @@ const test = require("ava");
 
 const { loadBundle } = require("./helpers/bundle");
 const { callHandler } = require("./helpers/handler");
-const { runNetlifyBuild } = require("./helpers/run");
+const { runCliBuild, runNetlifyBuild } = require("./helpers/run");
 
 test("Edge handlers should be bundled", async (t) => {
   await runNetlifyBuild(t, "integration-test");
@@ -34,4 +34,21 @@ test("Edge handlers directory build.edge_handlers misconfiguration is reported",
 test("Edge handlers directory build.edge_handlers syntax error is reported", async (t) => {
   const { output } = await runNetlifyBuild(t, "syntax-error", { expectedSuccess: false });
   t.true(output.includes("Error while bundling"));
+});
+
+test("Edge handlers CLI build works", async (t) => {
+  const { code, handlers, msg, success } = await runCliBuild("integration-test");
+  t.true(success, `failed bundling integration test (${code}): ${msg}`);
+  t.true(handlers.length > 0, "did not include any handlers");
+});
+
+test("Edge handlers CLI build errors on syntax error", async (t) => {
+  const { code, msg, success } = await runCliBuild("syntax-error");
+  t.false(success, `successfully bundled broken test (${code}): ${msg}`);
+});
+
+test("Edge handlers CLI build bundles custom directories", async (t) => {
+  const { code, handlers, msg, success } = await runCliBuild("config-dir", "custom-edge-handlers");
+  t.true(success, `failed bundling integration test (${code}): ${msg}`);
+  t.true(handlers.length > 0, "did not include any handlers");
 });
