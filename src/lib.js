@@ -172,7 +172,9 @@ function bundleFunctionsForCli(file) {
       if (msg.code == "UNRESOLVED_IMPORT") {
         rej({
           code: "unresolved-import",
-          msg: `Error in ${msg.importer}, could not resolve ${msg.source} module. Please install this dependency locally and ensure it is listed in your package.json`,
+          msg: `Error in ${msg.importer}, could not resolve ${msg.source} module. Please install this dependency locally and ensure it is listed in your package.json.`,
+          importee: msg.source,
+          importer: msg.importer,
           success: false,
         });
       } else {
