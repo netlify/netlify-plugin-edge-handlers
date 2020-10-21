@@ -52,3 +52,11 @@ test("Edge handlers CLI build bundles custom directories", async (t) => {
   t.true(success, `failed bundling integration test (${code}): ${msg}`);
   t.true(handlers.length > 0, "did not include any handlers");
 });
+
+test("Edge handlers CLI outputs missing imports", async (t) => {
+  const { code, importee, importer, msg, success } = await runCliBuild("missing-modules");
+  t.false(success, `failed bundling integration test (${code}): ${msg}`);
+  t.is(importee, "gatsby");
+  t.true(importer.length > 0);
+  t.true(importer.endsWith(".js"));
+});
