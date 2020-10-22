@@ -1,0 +1,9 @@
+.github/
+.editorconfig
+.eslint*
+.prettierrc.json
+
+test/
+ava.config.js
+
+*.tgz
