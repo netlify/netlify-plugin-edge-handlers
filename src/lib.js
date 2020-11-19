@@ -155,8 +155,8 @@ async function bundleFunctions(file, utils) {
     return code;
   } catch (error) {
     // This will stop the execution of this plugin.
-    // No Edge handlers will be uploaded.
-    return utils.build.failBuild("Error while bundling Edge handlers", { error });
+    // No Edge Handlers will be uploaded.
+    return utils.build.failBuild("Error while bundling Edge Handlers", { error });
   }
 }
 
@@ -194,7 +194,7 @@ function bundleFunctionsForCli(file) {
       .catch((err) =>
         rej({
           code: "unknown",
-          msg: `Error while bundling edge handlers: ${err.message}`,
+          msg: `Error while bundling Edge Handlers: ${err.message}`,
           success: false,
         }),
       );
@@ -251,7 +251,7 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
 
 function logHandlers(handlers, EDGE_HANDLERS_SRC) {
   const handlersString = handlers.map(serializeHandler).join("\n");
-  console.log(`Packaging Edge handlers from ${EDGE_HANDLERS_SRC} directory:\n${handlersString}`);
+  console.log(`Packaging Edge Handlers from ${EDGE_HANDLERS_SRC} directory:\n${handlersString}`);
 }
 
 function serializeHandler(handler) {

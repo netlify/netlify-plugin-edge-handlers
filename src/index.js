@@ -9,12 +9,12 @@ const { assemble, bundleFunctions, logHandlers, publishBundle } = require("./lib
 module.exports = {
   onBuild: async ({ constants: { IS_LOCAL, NETLIFY_API_TOKEN, EDGE_HANDLERS_SRC }, utils }) => {
     if (!(await isDirectory(EDGE_HANDLERS_SRC))) {
-      return utils.build.failBuild(`Edge handlers directory does not exist: ${path.resolve(EDGE_HANDLERS_SRC)}`);
+      return utils.build.failBuild(`Edge Handlers directory does not exist: ${path.resolve(EDGE_HANDLERS_SRC)}`);
     }
     const { mainFile, handlers } = await assemble(EDGE_HANDLERS_SRC);
 
     if (handlers.length === 0) {
-      console.log(`No Edge handlers were found in ${EDGE_HANDLERS_SRC} directory`);
+      console.log(`No Edge Handlers were found in ${EDGE_HANDLERS_SRC} directory`);
       return;
     }
 

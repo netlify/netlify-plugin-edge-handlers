@@ -8,7 +8,7 @@ build, meaning that any handler under the `./edge-handlers` directory will be bu
 This plugin is already integrated into Netlify's build process and will not need to be included in your project for Edge
 Handlers to work.
 
-To run this plugin locally in an existing project that has edge handlers, you'll need to install the netlify build
+To run this plugin locally in an existing project that has Edge Handlers, you'll need to install the netlify build
 codebase locally and symlink this plugin to that repo. To do so:
 
 1. Clone the build repo and install dependencies
