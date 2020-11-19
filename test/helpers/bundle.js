@@ -4,14 +4,14 @@ const sinon = require("sinon");
 const { resolveFixtureName } = require("./fixtures");
 const { normalizeHandler, isValidHandler } = require("./handler");
 
-// Retrieve Edge handlers bundled handlers
+// Retrieve Edge Handlers bundled handlers
 const loadBundle = function (t, fixtureName) {
   const { manifest, bundlePath } = loadManifest(t, fixtureName);
   const handlers = requireBundle(t, bundlePath);
   return { manifest, handlers };
 };
 
-// Load Edge handlers `manifest.json`
+// Load Edge Handlers `manifest.json`
 const loadManifest = function (t, fixtureName) {
   const fixtureDir = resolveFixtureName(fixtureName);
   const localOutDir = `${fixtureDir}/.netlify/edge-handlers`;

@@ -30,7 +30,7 @@ const build = async ({ EDGE_HANDLERS_SRC }) => {
     console.log(
       JSON.stringify({
         code: "unknown",
-        msg: `Failed discovering edge handlers: ${err.message}`,
+        msg: `Failed discovering Edge Handlers: ${err.message}`,
         success: false,
       }),
     );
@@ -53,7 +53,7 @@ const build = async ({ EDGE_HANDLERS_SRC }) => {
 const main = async () => {
   const [, bin, command, EDGE_HANDLERS_SRC] = process.argv;
 
-  const USAGE = `Usage: ${bin} build <edge handlers directory>`;
+  const USAGE = `Usage: ${bin} build <Edge Handlers directory>`;
 
   if (command !== "build") {
     console.log(
@@ -68,7 +68,7 @@ const main = async () => {
     console.log(
       JSON.stringify({
         code: "cli",
-        msg: `You must specify the edge handlers source directory\n\n${USAGE}`,
+        msg: `You must specify the Edge Hhandlers source directory\n\n${USAGE}`,
         success: false,
       }),
     );

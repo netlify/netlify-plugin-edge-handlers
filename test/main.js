@@ -4,7 +4,7 @@ const { loadBundle } = require("./helpers/bundle");
 const { callHandler } = require("./helpers/handler");
 const { runCliBuild, runNetlifyBuild } = require("./helpers/run");
 
-test("Edge handlers should be bundled", async (t) => {
+test("Edge Handlers should be bundled", async (t) => {
   await runNetlifyBuild(t, "integration-test");
 
   const { manifest, handlers } = loadBundle(t, "integration-test");
@@ -19,41 +19,41 @@ test("Edge handlers should be bundled", async (t) => {
   t.deepEqual(helloWorld.logs, "1,2,3,4,379");
 });
 
-test("Edge handlers directory can be configured using build.edge_handlers", async (t) => {
+test("Edge Handlers directory can be configured using build.edge_handlers", async (t) => {
   await runNetlifyBuild(t, "config-dir");
 
   const { manifest } = loadBundle(t, "config-dir");
   t.deepEqual(manifest.handlers, ["example"]);
 });
 
-test("Edge handlers directory build.edge_handlers misconfiguration is reported", async (t) => {
+test("Edge Handlers directory build.edge_handlers misconfiguration is reported", async (t) => {
   const { output } = await runNetlifyBuild(t, "wrong-config-dir", { expectedSuccess: false });
   t.true(output.includes("does-not-exist"));
 });
 
-test("Edge handlers directory build.edge_handlers syntax error is reported", async (t) => {
+test("Edge Handlers directory build.edge_handlers syntax error is reported", async (t) => {
   const { output } = await runNetlifyBuild(t, "syntax-error", { expectedSuccess: false });
   t.true(output.includes("Error while bundling"));
 });
 
-test("Edge handlers CLI build works", async (t) => {
+test("Edge Handlers CLI build works", async (t) => {
   const { code, handlers, msg, success } = await runCliBuild("integration-test");
   t.true(success, `failed bundling integration test (${code}): ${msg}`);
   t.true(handlers.length > 0, "did not include any handlers");
 });
 
-test("Edge handlers CLI build errors on syntax error", async (t) => {
+test("Edge Handlers CLI build errors on syntax error", async (t) => {
   const { code, msg, success } = await runCliBuild("syntax-error");
   t.false(success, `successfully bundled broken test (${code}): ${msg}`);
 });
 
-test("Edge handlers CLI build bundles custom directories", async (t) => {
+test("Edge Handlers CLI build bundles custom directories", async (t) => {
   const { code, handlers, msg, success } = await runCliBuild("config-dir", "custom-edge-handlers");
   t.true(success, `failed bundling integration test (${code}): ${msg}`);
   t.true(handlers.length > 0, "did not include any handlers");
 });
 
-test("Edge handlers CLI outputs missing imports", async (t) => {
+test("Edge Handlers CLI outputs missing imports", async (t) => {
   const { code, importee, importer, msg, success } = await runCliBuild("missing-modules");
   t.false(success, `failed bundling integration test (${code}): ${msg}`);
   t.is(importee, "gatsby");
