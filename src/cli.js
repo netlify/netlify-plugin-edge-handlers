@@ -68,7 +68,7 @@ const main = async () => {
     console.log(
       JSON.stringify({
         code: "cli",
-        msg: `You must specify the Edge Hhandlers source directory\n\n${USAGE}`,
+        msg: `You must specify the Edge Handlers source directory\n\n${USAGE}`,
         success: false,
       }),
     );
