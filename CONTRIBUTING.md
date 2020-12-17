@@ -11,7 +11,6 @@ Contributions are always welcome, no matter how large or small. Before contribut
 git clone git@github.com:netlify/netlify-plugin-edge-handlers.git
 cd netlify-plugin-edge-handlers
 npm install
-npm test
 ```
 
 ## Testing
