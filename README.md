@@ -13,7 +13,7 @@ codebase locally and symlink this plugin to that repo. To do so:
 
 1. Clone the build repo and install dependencies
 
-```
+```sh
 git clone git@github.com:netlify/build.git
 
 npm i
@@ -27,16 +27,6 @@ npm i
 
 4. Run the plugin locally in your project by typing in your project directory:
 
-```
+```sh
 /path/to/netlify-build/packages/build/src/core/bin.js
 ```
-
-## Testing
-
-To run tests in this plugin, simply run:
-
-```
-npm run test
-```
-
-This will start the integration tests located in the `integration-test` folder.
