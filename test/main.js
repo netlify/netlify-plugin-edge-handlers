@@ -60,3 +60,12 @@ test("Edge Handlers CLI outputs missing imports", async (t) => {
   t.true(importer.length > 0);
   t.true(importer.endsWith(".js"));
 });
+
+test("Edge Handlers should polyfill node built in modules", async (t) => {
+  await runNetlifyBuild(t, "node-polyfills");
+  const { manifest, handlers } = loadBundle(t, "node-polyfills");
+  t.deepEqual(manifest.handlers, ["process_version"]);
+
+  const processVersion = await callHandler(t, handlers, "process_version");
+  t.is(processVersion.logs, "Process version is: ");
+});

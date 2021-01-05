@@ -11,7 +11,7 @@ const nodeResolve = require("@rollup/plugin-node-resolve");
 const del = require("del");
 const makeDir = require("make-dir");
 const rollup = require("rollup");
-const nodeBuiltins = require("rollup-plugin-node-builtins");
+const nodePolyfills = require("rollup-plugin-node-polyfills");
 const { terser } = require("rollup-plugin-terser");
 
 const babel = nodeBabel.babel;
@@ -114,7 +114,7 @@ const rollupConfig = (file, onWarn) => ({
       compact: true,
     }),
     nodeGlobals(),
-    nodeBuiltins(),
+    nodePolyfills(),
     terser(),
   ],
   onwarn(msg, warn) {

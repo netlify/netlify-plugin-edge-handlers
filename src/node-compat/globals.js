@@ -5,7 +5,6 @@ const inject = require("@rollup/plugin-inject");
 
 const PROCESS_PATH = require.resolve("process-es6");
 const BUFFER_PATH = require.resolve("buffer-es6");
-const GLOBAL_PATH = require.resolve("./assets/global.js");
 const BROWSER_PATH = require.resolve("./assets/browser.js");
 const DIRNAME = "\0node-globals:dirname";
 const FILENAME = "\0node-globals:filename";
@@ -15,7 +14,6 @@ const injections = {
   "process.nextTick": [PROCESS_PATH, "nextTick"],
   "process.browser": [BROWSER_PATH, "browser"],
   "Buffer.isBuffer": [BUFFER_PATH, "isBuffer"],
-  global: GLOBAL_PATH,
   process: PROCESS_PATH,
   Buffer: [BUFFER_PATH, "Buffer"],
   __filename: FILENAME,
