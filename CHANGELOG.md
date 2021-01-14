@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.11.1](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.0...v1.11.1) (2021-01-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @rollup/plugin-commonjs to v17 ([#137](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/137)) ([4b40c6d](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/4b40c6df95e53d02319d27d028196c73cd246757))
+* **deps:** update dependency @rollup/plugin-node-resolve to v11 ([#138](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/138)) ([3df9547](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/3df95479fc3980436f6d7b6d756ac7c56f68758e))
+
 ## [1.11.0](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.10.0...v1.11.0) (2021-01-05)
 
 
