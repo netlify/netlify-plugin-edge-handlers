@@ -6,6 +6,10 @@
   "bin": {
     "plugin-build-edge-handlers": "src/cli.js"
   },
+  "files": [
+    "src",
+    "manifest.yml"
+  ],
   "scripts": {
     "test": "npm run format && npm run test:dev",
     "format": "run-s format:*",
