@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.2](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.1...v1.11.2) (2021-01-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency del to v6 ([#153](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/153)) ([a705539](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/a70553923e20c0dc010d521dd8a16928a925ad89))
+
 ### [1.11.1](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.0...v1.11.1) (2021-01-14)
 
 
