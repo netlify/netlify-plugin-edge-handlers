@@ -37,7 +37,7 @@
     "del": "^6.0.0",
     "make-dir": "^3.1.0",
     "node-fetch": "^2.6.1",
-    "path-type": "^4.0.0",
+    "path-type": "^5.0.0",
     "process-es6": "^0.11.6",
     "rollup": "^2.23.1",
     "rollup-plugin-node-polyfills": "^0.2.1",
