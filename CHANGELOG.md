@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.4](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.3...v1.11.4) (2021-02-15)
+
+
+### Bug Fixes
+
+* **deps:** update dependency typescript to v4 ([#154](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/154)) ([10a7d7c](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/10a7d7c03dd6ff4d71949222af0f0b778873fb41))
+
 ### [1.11.3](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.2...v1.11.3) (2021-02-01)
 
 
