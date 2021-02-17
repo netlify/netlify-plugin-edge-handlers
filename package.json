@@ -7,7 +7,7 @@
     "plugin-build-edge-handlers": "src/cli.js"
   },
   "files": [
-    "src",
+    "src/**/*.js",
     "manifest.yml"
   ],
   "scripts": {
