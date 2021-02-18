@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.5](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.4...v1.11.5) (2021-02-17)
+
+
+### Bug Fixes
+
+* fix `files` in `package.json` with npm v7 ([#182](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/182)) ([b354151](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/b35415131ea34eb31ab9c7fee8d1845dd600c6cf))
+
 ### [1.11.4](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.3...v1.11.4) (2021-02-15)
 
 
