@@ -1,7 +1,7 @@
 # Netlify Plugin Edge Handlers
 
 This plugin is used to bundle Edge Handlers for deployment. It is included in the list of core plugins in Netlify's
-build, meaning that any handler under the `./edge-handlers` directory will be bundled by Netlify's buildbot.
+build, meaning that any handler under the `netlify/edge-handlers` directory will be bundled by Netlify's buildbot.
 
 ## Usage
 
