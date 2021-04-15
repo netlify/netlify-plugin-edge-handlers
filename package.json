@@ -12,10 +12,13 @@
   ],
   "scripts": {
     "prepublishOnly": "npm ci && run-s test",
-    "test": "npm run format && npm run test:dev",
-    "format": "run-s format:*",
-    "format:lint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"src/**/*.js\"",
-    "format:prettier": "prettier --ignore-path .gitignore --write --loglevel warn \"*.{js,md,yml,json}\" \"!**/package-lock.json\" \"!package-lock.json\" \"!**/CHANGELOG.md\"",
+    "test": "run-s format:dev test:dev",
+    "format:ci": "run-s format:ci:*",
+    "format:dev": "run-s format:dev:*",
+    "format:dev:lint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"src/**/*.js\"",
+    "format:dev:prettier": "prettier --ignore-path .gitignore --write --loglevel warn \"src/**/*.js\" \"*.{js,md,yml,json}\" \"!**/package-lock.json\" \"!package-lock.json\" \"!**/CHANGELOG.md\"",
+    "format:ci:lint": "eslint --ignore-path .gitignore  --cache --format=codeframe --max-warnings=0 \"src/**/*.js\"",
+    "format:ci:prettier": "prettier --ignore-path .gitignore --check --loglevel warn \"src/**/*.js\" \"*.{js,md,yml,json}\" \"!**/package-lock.json\" \"!package-lock.json\" \"!**/CHANGELOG.md\"",
     "test:dev": "ava",
     "test:ci": "nyc -r lcovonly -r text -r json ava"
   },
