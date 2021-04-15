@@ -25,10 +25,7 @@ This will run formatting, linting and the integration tests located in the `test
 
 ## Releasing
 
-1. Merge the release PR
-2. Switch to the default branch `git checkout master`
-3. Pull latest changes `git pull`
-4. Publish the package `npm publish`
+Merge the release PR
 
 ## License
 

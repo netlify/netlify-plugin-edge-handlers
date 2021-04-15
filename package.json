@@ -11,6 +11,7 @@
     "manifest.yml"
   ],
   "scripts": {
+    "prepublishOnly": "npm ci && run-s test",
     "test": "npm run format && npm run test:dev",
     "format": "run-s format:*",
     "format:lint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"src/**/*.js\"",
