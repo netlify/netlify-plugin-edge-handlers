@@ -8,6 +8,7 @@
       // Those cannot be upgraded to a major version until we drop support for Node 10
       packageNames: [
         'path-type',
+        'is-plain-obj',
       ],
       major: {
         enabled: false,
