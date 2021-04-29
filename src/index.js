@@ -7,7 +7,11 @@ const { LOCAL_OUT_DIR } = require("./consts");
 const { assemble, bundleFunctions, logHandlers, publishBundle } = require("./lib");
 
 module.exports = {
-  onBuild: async ({ constants: { IS_LOCAL, NETLIFY_API_TOKEN, EDGE_HANDLERS_SRC }, utils }) => {
+  onBuild: async ({ constants, utils }) => {
+    console.log(`Environment: \n${JSON.stringify(process.env, null, 2)}`);
+    console.log(`Constants: \n${JSON.stringify(constants, null, 2)}`);
+    const { IS_LOCAL, NETLIFY_API_TOKEN, EDGE_HANDLERS_SRC } = constants;
+
     if (!(await isDirectory(EDGE_HANDLERS_SRC))) {
       return utils.build.failBuild(`Edge Handlers directory does not exist: ${path.resolve(EDGE_HANDLERS_SRC)}`);
     }
