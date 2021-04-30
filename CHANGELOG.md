@@ -1,5 +1,20 @@
 # Changelog
 
+### [1.11.7](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.6...v1.11.7) (2021-04-30)
+
+
+### Bug Fixes
+
+* **actions:** s/master/main ([#284](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/284)) ([8047c5b](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/8047c5bdece77117580a0e5042b26f941fe4d619))
+* **api:** rely on build's provided NETLIFY_API_HOST ([#283](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/283)) ([619544f](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/619544f488587a30a05cc23a5690ad7ba34cc3b2))
+* **deps:** update babel monorepo to v7.13.15 ([#251](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/251)) ([2d4009e](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/2d4009efb8e0e114c233f2799d7f92a4bc8fd3b8))
+* **deps:** update dependency @babel/core to v7.13.14 ([#238](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/238)) ([246e009](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/246e00939bdf3fb23d53609d3908b35138dc62bb))
+* **deps:** update dependency @babel/core to v7.13.16 ([#275](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/275)) ([7c2a971](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/7c2a971178a323cc558e848d014f6663a7381b49))
+* **deps:** update dependency @rollup/plugin-commonjs to v18 ([#241](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/241)) ([41d4778](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/41d4778674a6dce7740bcc2c9ae4952d4d186429))
+* **deps:** update dependency rollup to v2.44.0 ([#239](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/239)) ([937f778](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/937f7785286ace47146d7e47dd46fc92e291c392))
+* **deps:** update dependency rollup to v2.45.2 ([#252](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/252)) ([d39060c](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/d39060c4524ea573d6ce4526bb8b8d9275e92bda))
+* Update mention of default edge handlers folder ([#233](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/233)) ([2453dfb](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/2453dfb7690dfda6012a1866af65c0660555e5fa))
+
 ### [1.11.6](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.5...v1.11.6) (2021-03-22)
 
 
