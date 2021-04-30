@@ -208,10 +208,11 @@ function bundleFunctionsForCli(file) {
  * @param {string[]} handlers names of the included handlers
  * @param {string} outputDir path to the output directory (created if not exists)
  * @param {boolean} isLocal whether we're running locally or in CI
+ * @param {string} apiHost Netlify API host used for uploads
  * @param {string | null} apiToken Netlify API token used for uploads
  * @returns {Promise<boolean>}
  */
-async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
+async function publishBundle(bundle, handlers, outputDir, isLocal, apiHost, apiToken) {
   // encode bundle into bytes
   const buf = Buffer.from(bundle, "utf-8");
   const sha = getShasum(buf);
@@ -239,7 +240,7 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiToken) {
     const manifestFile = path.join(outputDir, MANIFEST_FILE);
     await fsPromises.writeFile(manifestFile, JSON.stringify(bundleInfo, null, 2));
   } else {
-    const uploaded = await uploadBundle(buf, bundleInfo, process.env.DEPLOY_ID, apiToken);
+    const uploaded = await uploadBundle(buf, bundleInfo, process.env.DEPLOY_ID, apiHost, apiToken);
     if (!uploaded) {
       console.log("Bundle already exists. Skipping upload...");
     }

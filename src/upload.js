@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 
-const { API_HOST, CONTENT_TYPE } = require("./consts");
+const { CONTENT_TYPE } = require("./consts");
 
 /**
  * @typedef {{ sha: string, handlers: string[], content_length: number, content_type: string }} BundleInfo
@@ -12,15 +12,16 @@ const { API_HOST, CONTENT_TYPE } = require("./consts");
  * @param {Buffer} buf UTF-8 encoded handler bundle
  * @param {BundleInfo} info metadata about the bundle
  * @param {string} deployId id of the deploy the bundle is deployed for
+ * @param {string} apiHost  host of the Netlify API
  * @param {string} apiToken token for authorizing on the API
  * @returns {Promise<boolean>} Whether the bundle was newly uploaded (and did not already exist)
  */
-async function uploadBundle(buf, info, deployId, apiToken) {
+async function uploadBundle(buf, info, deployId, apiHost, apiToken) {
   if (!apiToken) {
     throw new Error("API token is missing");
   }
 
-  const resp = await fetch(`https://${API_HOST}/api/v1/deploys/${deployId}/edge_handlers`, {
+  const resp = await fetch(`https://${apiHost}/api/v1/deploys/${deployId}/edge_handlers`, {
     method: "POST",
     body: JSON.stringify(info),
     headers: {
