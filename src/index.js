@@ -7,7 +7,7 @@ const { LOCAL_OUT_DIR } = require("./consts");
 const { assemble, bundleFunctions, logHandlers, publishBundle } = require("./lib");
 
 module.exports = {
-  onBuild: async ({ constants: { IS_LOCAL, NETLIFY_API_TOKEN, EDGE_HANDLERS_SRC }, utils }) => {
+  onBuild: async ({ constants: { IS_LOCAL, NETLIFY_API_TOKEN, NETLIFY_API_HOST, EDGE_HANDLERS_SRC }, utils }) => {
     if (!(await isDirectory(EDGE_HANDLERS_SRC))) {
       return utils.build.failBuild(`Edge Handlers directory does not exist: ${path.resolve(EDGE_HANDLERS_SRC)}`);
     }
@@ -20,7 +20,14 @@ module.exports = {
 
     logHandlers(handlers, EDGE_HANDLERS_SRC);
     const bundle = await bundleFunctions(mainFile, utils);
-    const uploaded = await publishBundle(bundle, handlers, LOCAL_OUT_DIR, IS_LOCAL, NETLIFY_API_TOKEN);
+    const uploaded = await publishBundle(
+      bundle,
+      handlers,
+      LOCAL_OUT_DIR,
+      IS_LOCAL,
+      NETLIFY_API_HOST,
+      NETLIFY_API_TOKEN,
+    );
 
     if (!IS_LOCAL) {
       const summaryText = uploaded
