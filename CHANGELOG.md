@@ -1,5 +1,18 @@
 # Changelog
 
+### [1.11.8](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.7...v1.11.8) (2021-05-19)
+
+
+### Bug Fixes
+
+* **deps:** update babel monorepo to v7.14.0 ([#286](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/286)) ([aa16c87](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/aa16c87a4b3fd10409d0b2be9a51d92df95f5289))
+* **deps:** update babel monorepo to v7.14.2 ([#301](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/301)) ([0861b0b](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/0861b0ba542d5529d8283873e32150e2e90157f2))
+* **deps:** update dependency @types/node to v14.14.43 ([#287](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/287)) ([2f32784](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/2f327844ab4fe6cb2c2b7beec27ecf44846e60fe))
+* **deps:** update dependency @types/node to v14.14.45 ([#303](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/303)) ([26c77cf](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/26c77cfd5ad1c4ff5f4de54d3d7982713033ba15))
+* **deps:** update dependency rollup to v2.46.0 ([#288](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/288)) ([51a4a5e](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/51a4a5e96ad7438fb7b77d20f4e013a059cf502e))
+* **deps:** update dependency rollup to v2.48.0 ([#304](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/304)) ([418a44f](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/418a44f77d47e2fc9b411364f02b62927b54f13a))
+* use shared Prettier configuration ([#320](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/320)) ([03e0174](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/03e017461093ac488fcd70203b69b6c6ed55333e))
+
 ### [1.11.7](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.6...v1.11.7) (2021-04-30)
 
 
