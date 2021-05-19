@@ -8,15 +8,15 @@ test("Edge Handlers should be bundled", async (t) => {
   await runNetlifyBuild(t, "integration-test");
 
   const { manifest, handlers } = loadBundle(t, "integration-test");
-  t.deepEqual(manifest.handlers.sort(), ["example", "hello-world"]);
+  t.deepEqual(manifest.handlers.sort(), ["example", "hello_world"]);
 
   const example = await callHandler(t, handlers, "example");
   t.is(example.logs, "3 days");
 
-  const helloWorld = await callHandler(t, handlers, "hello-world", {
+  const helloWorld = await callHandler(t, handlers, "hello_world", {
     getRequest: () => ({ headers: { get: () => "AK" } }),
   });
-  t.deepEqual(helloWorld.logs, "1,2,3,4,379");
+  t.is(helloWorld.logs, "1,2,3,4,379");
 });
 
 test("Edge Handlers directory can be configured using build.edge_handlers", async (t) => {
@@ -39,7 +39,7 @@ test("Edge Handlers directory build.edge_handlers syntax error is reported", asy
 test("Edge Handlers CLI build works", async (t) => {
   const { code, handlers, msg, success } = await runCliBuild("integration-test");
   t.true(success, `failed bundling integration test (${code}): ${msg}`);
-  t.true(handlers.length > 0, "did not include any handlers");
+  t.true(handlers.length !== 0, "did not include any handlers");
 });
 
 test("Edge Handlers CLI build errors on syntax error", async (t) => {
@@ -50,14 +50,14 @@ test("Edge Handlers CLI build errors on syntax error", async (t) => {
 test("Edge Handlers CLI build bundles custom directories", async (t) => {
   const { code, handlers, msg, success } = await runCliBuild("config-dir", "custom-edge-handlers");
   t.true(success, `failed bundling integration test (${code}): ${msg}`);
-  t.true(handlers.length > 0, "did not include any handlers");
+  t.true(handlers.length !== 0, "did not include any handlers");
 });
 
 test("Edge Handlers CLI outputs missing imports", async (t) => {
   const { code, importee, importer, msg, success } = await runCliBuild("missing-modules");
   t.false(success, `failed bundling integration test (${code}): ${msg}`);
   t.is(importee, "gatsby");
-  t.true(importer.length > 0);
+  t.true(importer.length !== 0);
   t.true(importer.endsWith(".js"));
 });
 

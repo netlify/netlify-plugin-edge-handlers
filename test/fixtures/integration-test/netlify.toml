@@ -8,4 +8,4 @@ package = "../../.."
 from = "/"
 status = 200
 force = true
-edge_function = "hello-world"
+edge_function = "hello_world"

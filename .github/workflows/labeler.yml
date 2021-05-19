@@ -11,16 +11,16 @@ jobs:
       matrix:
         pr:
           [
-            { prefix: 'fix', type: 'bug' },
-            { prefix: 'chore', type: 'chore' },
-            { prefix: 'test', type: 'chore' },
-            { prefix: 'ci', type: 'chore' },
-            { prefix: 'feat', type: 'feature' },
-            { prefix: 'security', type: 'security' },
+            { prefix: "fix", type: "bug" },
+            { prefix: "chore", type: "chore" },
+            { prefix: "test", type: "chore" },
+            { prefix: "ci", type: "chore" },
+            { prefix: "feat", type: "feature" },
+            { prefix: "security", type: "security" },
           ]
     steps:
       - uses: netlify/pr-labeler-action@v1.0.0
         if: startsWith(github.event.pull_request.title, matrix.pr.prefix)
         with:
-          token: '${{ secrets.GITHUB_TOKEN }}'
-          label: 'type: ${{ matrix.pr.type }}'
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          label: "type: ${{ matrix.pr.type }}"

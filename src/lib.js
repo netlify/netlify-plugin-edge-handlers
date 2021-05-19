@@ -1,21 +1,20 @@
+const { Buffer } = require("buffer");
 const crypto = require("crypto");
 const { promises: fsPromises } = require("fs");
 const os = require("os");
 const path = require("path");
 const process = require("process");
 
-const nodeBabel = require("@rollup/plugin-babel");
+const presetEnv = require("@babel/preset-env");
+const { babel } = require("@rollup/plugin-babel");
 const commonjs = require("@rollup/plugin-commonjs");
 const json = require("@rollup/plugin-json");
-const nodeResolve = require("@rollup/plugin-node-resolve");
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
 const del = require("del");
 const makeDir = require("make-dir");
 const rollup = require("rollup");
 const nodePolyfills = require("rollup-plugin-node-polyfills");
 const { terser } = require("rollup-plugin-terser");
-
-const babel = nodeBabel.babel;
-const resolve = nodeResolve.nodeResolve;
 
 const { MANIFEST_FILE, MAIN_FILE, CONTENT_TYPE } = require("./consts");
 const nodeGlobals = require("./node-compat/globals");
@@ -49,8 +48,8 @@ import * as func${index} from "${unixify(path.resolve(EDGE_HANDLERS_SRC, handler
 netlifyRegistry.set("${handler}", func${index});`,
     )
     .join("\n");
-
-  const tmpDir = await fsPromises.mkdtemp(path.join(os.tmpdir(), "handlers-")); //make temp dir `handlers-abc123`
+  // make temp dir `handlers-abc123`
+  const tmpDir = await fsPromises.mkdtemp(path.join(os.tmpdir(), "handlers-"));
   const mainFile = path.join(tmpDir, MAIN_FILE);
   await fsPromises.writeFile(mainFile, mainContents);
   return { handlers, mainFile };
@@ -85,10 +84,11 @@ const babelConfig = {
   configFile: false,
   presets: [
     [
-      require("@babel/preset-env"),
+      presetEnv,
       {
         targets: {
-          chrome: "87", // latest beta release as of this commit (V8 8.6)
+          // latest beta release as of this commit (V8 8.6)
+          chrome: "87",
         },
       },
     ],
@@ -105,7 +105,7 @@ const rollupConfig = (file, onWarn) => ({
   input: file,
   plugins: [
     babel(babelConfig),
-    resolve({
+    nodeResolve({
       browser: true,
       preferBuiltins: false,
     }),
@@ -135,7 +135,7 @@ const rollupConfig = (file, onWarn) => ({
  */
 async function bundleFunctions(file, utils) {
   const options = rollupConfig(file, (msg, warn) => {
-    if (msg.code == "UNRESOLVED_IMPORT") {
+    if (msg.code === "UNRESOLVED_IMPORT") {
       utils.build.failBuild(
         `Error in ${msg.importer}, could not resolve ${msg.source} module. Please install this dependency locally and ensure it is listed in your package.json`,
       );
@@ -167,10 +167,11 @@ async function bundleFunctions(file, utils) {
  * @returns {Promise<string>} bundled code
  */
 function bundleFunctionsForCli(file) {
-  return new Promise((res, rej) => {
+  return new Promise((resolve, reject) => {
     const options = rollupConfig(file, (msg, warn) => {
-      if (msg.code == "UNRESOLVED_IMPORT") {
-        rej({
+      if (msg.code === "UNRESOLVED_IMPORT") {
+        // eslint-disable-next-line prefer-promise-reject-errors
+        reject({
           code: "unresolved-import",
           msg: `Error in ${msg.importer}, could not resolve ${msg.source} module. Please install this dependency locally and ensure it is listed in your package.json.`,
           importee: msg.source,
@@ -184,17 +185,21 @@ function bundleFunctionsForCli(file) {
 
     rollup
       .rollup(options)
+      // eslint-disable-next-line promise/prefer-await-to-then
       .then((bundle) =>
         bundle.generate({
           format: "iife",
           compact: true,
         }),
       )
-      .then(({ output: [{ code }] }) => res(code))
-      .catch((err) =>
-        rej({
+      // eslint-disable-next-line promise/prefer-await-to-then
+      .then(({ output: [{ code }] }) => resolve(code))
+      // eslint-disable-next-line promise/prefer-await-to-callbacks
+      .catch((error) =>
+        // eslint-disable-next-line prefer-promise-reject-errors
+        reject({
           code: "unknown",
-          msg: `Error while bundling Edge Handlers: ${err.message}`,
+          msg: `Error while bundling Edge Handlers: ${error.message}`,
           success: false,
         }),
       );
