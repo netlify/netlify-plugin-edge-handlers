@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.9](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.8...v1.11.9) (2021-05-19)
+
+
+### Bug Fixes
+
+* fix automatic `npm publish` ([#321](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/321)) ([4cde9b8](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/4cde9b89c1b6f6cd90076fa7a5eff4d2dba85913))
+
 ### [1.11.8](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.7...v1.11.8) (2021-05-19)
 
 
