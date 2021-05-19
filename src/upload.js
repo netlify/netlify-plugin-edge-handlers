@@ -34,18 +34,18 @@ async function uploadBundle(buf, info, deployId, apiHost, apiToken) {
     throw new Error(`Invalid status: ${resp.status}`);
   }
 
-  const { error, exists, upload_url } = await resp.json();
+  const { error, exists, upload_url: uploadUrl } = await resp.json();
   if (error) {
     throw new Error(`Failed to upload: ${error}`);
   }
   if (exists) {
     return false;
   }
-  if (!upload_url) {
+  if (!uploadUrl) {
     throw new Error("Missing upload url");
   }
 
-  await fetch(upload_url, {
+  await fetch(uploadUrl, {
     method: "PUT",
     body: buf,
     headers: {

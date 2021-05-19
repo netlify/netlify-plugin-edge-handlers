@@ -34,12 +34,12 @@ const runCliBuild = async (fixtureName, subdir) => {
 
   const options = { maxBuffer: 1024 * 1024 * 32, windowsHide: true };
 
-  const output = await new Promise((res, rej) => {
+  const output = await new Promise((resolve, reject) => {
     childProcess.exec(`node ${cliPath} build ${fixturePath}`, options, (err, stdout) => {
       if (err) {
-        rej(err);
+        reject(err);
       } else {
-        res(stdout);
+        resolve(stdout);
       }
     });
   });

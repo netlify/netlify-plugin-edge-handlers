@@ -1,1 +1,1 @@
-export var browser = true;
+export const browser = true;

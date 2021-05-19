@@ -1,6 +1,7 @@
 const path = require("path");
+const process = require("process");
 
-exports.LOCAL_OUT_DIR = path.join(process.cwd(), ".netlify", "edge-handlers");
-exports.MANIFEST_FILE = "manifest.json";
-exports.MAIN_FILE = "__netlifyMain.ts";
-exports.CONTENT_TYPE = "application/javascript";
+module.exports.LOCAL_OUT_DIR = path.join(process.cwd(), ".netlify", "edge-handlers");
+module.exports.MANIFEST_FILE = "manifest.json";
+module.exports.MAIN_FILE = "__netlifyMain.ts";
+module.exports.CONTENT_TYPE = "application/javascript";

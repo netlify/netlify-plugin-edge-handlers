@@ -35,12 +35,12 @@ function nodeGlobals() {
     },
     resolveId: (importee, importer) => {
       if (importee === DIRNAME) {
-        let id = randomBytes(15).toString("hex");
+        const id = randomBytes(15).toString("hex");
         dirs.set(id, dirname(importer));
         return id;
       }
       if (importee === FILENAME) {
-        let id = randomBytes(15).toString("hex");
+        const id = randomBytes(15).toString("hex");
         dirs.set(id, importer);
         return id;
       }

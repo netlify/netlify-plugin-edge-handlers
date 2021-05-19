@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const path = require("path");
+const process = require("process");
 
 const { isDirectory } = require("path-type");
 
@@ -24,13 +25,15 @@ const build = async ({ EDGE_HANDLERS_SRC }) => {
   let handlers;
   try {
     const result = await assemble(srcDir);
+    // eslint-disable-next-line prefer-destructuring
     mainFile = result.mainFile;
+    // eslint-disable-next-line prefer-destructuring
     handlers = result.handlers;
-  } catch (err) {
+  } catch (error) {
     console.log(
       JSON.stringify({
         code: "unknown",
-        msg: `Failed discovering Edge Handlers: ${err.message}`,
+        msg: `Failed discovering Edge Handlers: ${error.message}`,
         success: false,
       }),
     );
@@ -45,8 +48,8 @@ const build = async ({ EDGE_HANDLERS_SRC }) => {
   try {
     const bundle = await bundleFunctionsForCli(mainFile);
     console.log(JSON.stringify({ bundle, bundled: srcDir, handlers, success: true }));
-  } catch (err) {
-    console.log(JSON.stringify(err));
+  } catch (error) {
+    console.log(JSON.stringify(error));
   }
 };
 
@@ -64,7 +67,8 @@ const main = async () => {
       }),
     );
     return;
-  } else if (!EDGE_HANDLERS_SRC) {
+  }
+  if (!EDGE_HANDLERS_SRC) {
     console.log(
       JSON.stringify({
         code: "cli",

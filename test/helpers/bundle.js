@@ -16,6 +16,7 @@ const loadManifest = function (t, fixtureName) {
   const fixtureDir = resolveFixtureName(fixtureName);
   const localOutDir = `${fixtureDir}/.netlify/edge-handlers`;
   const manifestPath = `${localOutDir}/manifest.json`;
+  // eslint-disable-next-line import/no-dynamic-require, node/global-require
   const manifest = require(manifestPath);
 
   validateManifest(t, manifest);
@@ -40,6 +41,7 @@ const validateManifest = function (t, manifest) {
 const requireBundle = function (t, bundlePath) {
   const setRegistry = sinon.spy();
   global.netlifyRegistry = { set: setRegistry };
+  // eslint-disable-next-line import/no-dynamic-require, node/global-require
   require(bundlePath);
   delete global.netlifyRegistry;
 
