@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.10](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.9...v1.11.10) (2021-05-19)
+
+
+### Bug Fixes
+
+* fix `@netlify/eslint-config-node` ([#324](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/324)) ([a02b758](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/a02b7588e1a86cb518e339b77b14aeee9f656072))
+
 ### [1.11.9](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.8...v1.11.9) (2021-05-19)
 
 
