@@ -1,6 +1,6 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch')
 
-const { CONTENT_TYPE } = require("./consts");
+const { CONTENT_TYPE } = require('./consts')
 
 /**
  * @typedef {{ sha: string, handlers: string[], content_length: number, content_type: string }} BundleInfo
@@ -18,42 +18,42 @@ const { CONTENT_TYPE } = require("./consts");
  */
 async function uploadBundle(buf, info, deployId, apiHost, apiToken) {
   if (!apiToken) {
-    throw new Error("API token is missing");
+    throw new Error('API token is missing')
   }
 
   const resp = await fetch(`https://${apiHost}/api/v1/deploys/${deployId}/edge_handlers`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(info),
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${apiToken}`,
     },
-  });
+  })
 
   if (!resp.ok) {
-    throw new Error(`Invalid status: ${resp.status}`);
+    throw new Error(`Invalid status: ${resp.status}`)
   }
 
-  const { error, exists, upload_url: uploadUrl } = await resp.json();
+  const { error, exists, upload_url: uploadUrl } = await resp.json()
   if (error) {
-    throw new Error(`Failed to upload: ${error}`);
+    throw new Error(`Failed to upload: ${error}`)
   }
   if (exists) {
-    return false;
+    return false
   }
   if (!uploadUrl) {
-    throw new Error("Missing upload url");
+    throw new Error('Missing upload url')
   }
 
   await fetch(uploadUrl, {
-    method: "PUT",
+    method: 'PUT',
     body: buf,
     headers: {
-      "Content-Type": CONTENT_TYPE,
+      'Content-Type': CONTENT_TYPE,
     },
-  });
+  })
 
-  return true;
+  return true
 }
 
-module.exports = uploadBundle;
+module.exports = uploadBundle

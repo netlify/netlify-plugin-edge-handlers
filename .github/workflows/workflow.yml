@@ -3,7 +3,7 @@ on:
   # Ensure GitHub actions are not run twice for same commits
   push:
     branches: [main]
-    tags: ["*"]
+    tags: ['*']
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
-        node-version: [10.17.0, "*"]
+        node-version: [10.17.0, '*']
         exclude:
           - os: macOS-latest
             node-version: 10.17.0
