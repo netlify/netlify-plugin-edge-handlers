@@ -1,4 +1,4 @@
 // eslint-disable-next-line import/no-unassigned-import, import/no-unresolved, node/no-missing-import
-import "gatsby";
+import 'gatsby'
 
-export const onRequest = () => {};
+export const onRequest = () => {}
