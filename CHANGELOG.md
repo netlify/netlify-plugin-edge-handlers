@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.11.11](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.10...v1.11.11) (2021-05-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @babel/core to v7.14.3 ([#330](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/330)) ([79a074b](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/79a074b06343ccfce88243e843b89c4a36ea2714))
+* **deps:** update dependency @types/node to v14.17.0 ([#332](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/332)) ([1625039](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/1625039188a93a76d651032a65169c95419d523c))
+
 ### [1.11.10](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.9...v1.11.10) (2021-05-19)
 
 
