@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.11.13](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.12...v1.11.13) (2021-05-31)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @babel/preset-env to v7.14.4 ([#349](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/349)) ([df9d8e2](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/df9d8e25c0bedac27c784eb6691091f97c5fdbbe))
+* **deps:** update dependency @types/node to v14.17.1 ([#350](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/350)) ([4a6c493](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/4a6c4930bfdc7cc645a9176014d8e4e7c5d9f027))
+
 ### [1.11.12](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.11...v1.11.12) (2021-05-25)
 
 
