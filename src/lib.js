@@ -194,7 +194,7 @@ function bundleFunctionsForCli(file) {
       )
       // eslint-disable-next-line promise/prefer-await-to-then
       .then(({ output: [{ code }] }) => resolve(code))
-      // eslint-disable-next-line promise/prefer-await-to-callbacks
+      // eslint-disable-next-line promise/prefer-await-to-callbacks,promise/prefer-await-to-then
       .catch((error) =>
         // eslint-disable-next-line prefer-promise-reject-errors
         reject({
