@@ -74,7 +74,7 @@
     "@commitlint/cli": "^12.0.0",
     "@commitlint/config-conventional": "^12.0.0",
     "@netlify/build": "^11.31.1",
-    "@netlify/eslint-config-node": "^3.1.0",
+    "@netlify/eslint-config-node": "^3.1.1",
     "ava": "^3.12.1",
     "date-fns": "^2.15.0",
     "eslint": "^7.7.0",
