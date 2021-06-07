@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.15](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.14...v1.11.15) (2021-06-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/node to v14.17.2 ([#367](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/367)) ([b784343](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/b784343d3b01ba0c3632c21043b4a4c95a894fe7))
+
 ### [1.11.14](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.13...v1.11.14) (2021-06-06)
 
 
