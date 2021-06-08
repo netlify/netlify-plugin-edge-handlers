@@ -1,6 +1,6 @@
 {
   "name": "@netlify/plugin-edge-handlers",
-  "version": "1.11.15",
+  "version": "1.11.16",
   "description": "Netlify Build plugin to bundle Edge functions",
   "main": "src/index.js",
   "bin": {
