@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.17](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.16...v1.11.17) (2021-06-14)
+
+
+### Bug Fixes
+
+* **deps:** update babel monorepo to v7.14.5 ([#387](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/387)) ([a9b23c1](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/a9b23c1d3270eedc56e1489671fe0b833f40724f))
+
 ### [1.11.16](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.15...v1.11.16) (2021-06-08)
 
 
