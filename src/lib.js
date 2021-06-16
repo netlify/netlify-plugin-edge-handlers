@@ -15,6 +15,7 @@ const del = require('del')
 const makeDir = require('make-dir')
 const rollup = require('rollup')
 const nodePolyfills = require('rollup-plugin-node-polyfills')
+const polyfill = require('rollup-plugin-polyfill')
 const { terser } = require('rollup-plugin-terser')
 
 const { MANIFEST_FILE, MAIN_FILE, CONTENT_TYPE } = require('./consts')
@@ -111,7 +112,8 @@ const rollupConfig = (file, onWarn) => ({
       preferBuiltins: false,
     }),
     commonjs(),
-    wasm({ maxFileSize: Infinity }),
+    polyfill([require.resolve('./node-compat/assets/encode_decode.js')]),
+    wasm({ maxFileSize: Number.POSITIVE_INFINITY }),
     json({
       compact: true,
     }),
