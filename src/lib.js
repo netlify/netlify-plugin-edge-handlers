@@ -10,6 +10,7 @@ const { babel } = require('@rollup/plugin-babel')
 const commonjs = require('@rollup/plugin-commonjs')
 const json = require('@rollup/plugin-json')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
+const wasm = require('@rollup/plugin-wasm')
 const del = require('del')
 const makeDir = require('make-dir')
 const rollup = require('rollup')
@@ -110,6 +111,7 @@ const rollupConfig = (file, onWarn) => ({
       preferBuiltins: false,
     }),
     commonjs(),
+    wasm({ maxFileSize: Infinity }),
     json({
       compact: true,
     }),
