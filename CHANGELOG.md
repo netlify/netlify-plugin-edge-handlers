@@ -1,5 +1,14 @@
 # Changelog
 
+### [1.11.20](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.19...v1.11.20) (2021-07-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency rollup to v2.52.4 ([#418](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/418)) ([9c19948](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/9c199486205eeeeef1aa44fe7cc3dc2aa077c23a))
+* **deps:** update dependency rollup to v2.52.7 ([#431](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/431)) ([9a15a89](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/9a15a898ff6058a0e8a29af7846278470f3ba73f))
+* **deps:** update dependency typescript to v4.3.5 ([#432](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/432)) ([7b6a8ab](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/7b6a8abb0077a72c6e5a4d5fe5094afec32ce0fd))
+
 ### [1.11.19](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.18...v1.11.19) (2021-06-22)
 
 
