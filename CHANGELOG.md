@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.11.22](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.21...v1.11.22) (2021-07-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency rollup to v2.53.2 ([#447](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/447)) ([d4089d7](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/d4089d794e4519ecbd598ec43cdb18b5bb307412))
+
 ### [1.11.21](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.20...v1.11.21) (2021-07-12)
 
 
