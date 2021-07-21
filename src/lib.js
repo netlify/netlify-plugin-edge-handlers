@@ -11,6 +11,7 @@ const commonjs = require('@rollup/plugin-commonjs')
 const json = require('@rollup/plugin-json')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const del = require('del')
+const esbuild = require('esbuild')
 const makeDir = require('make-dir')
 const rollup = require('rollup')
 const nodePolyfills = require('rollup-plugin-node-polyfills')
@@ -87,8 +88,8 @@ const babelConfig = {
       presetEnv,
       {
         targets: {
-          // latest beta release as of this commit (V8 8.6)
-          chrome: '87',
+          // 2021-07, V8 v9.2
+          chrome: '92',
         },
       },
     ],
@@ -166,7 +167,41 @@ async function bundleFunctions(file, utils) {
  * @param {string} file path of the entrypoint file
  * @returns {Promise<string>} bundled code
  */
-function bundleFunctionsForCli(file) {
+async function bundleFunctionsForCli(file) {
+  let result;
+  try {
+    result = await esbuild.build({
+      entryPoints: [file],
+      bundle: true,
+      format: 'iife',
+      inject: [
+        require.resolve("./node-compat/globals"),
+        require.resolve("./node-compat/process"),
+      ],
+      legalComments: 'inline',
+      minify: true,
+      target: "chrome92",
+      write: false,
+    });
+  } catch (err) {
+    console.error(err);
+    throw {
+      code: 'unknown',
+      msg: `Error while building Edge Handlers: ${err}`,
+      success: false,
+    };
+  }
+
+  if (result.outputFiles.length > 1) {
+    throw {
+      code: 'unknown',
+      msg: `esbuild generated more than one output file`,
+      success: false,
+    };
+  }
+
+  return result.outputFiles[0].text;
+
   return new Promise((resolve, reject) => {
     const options = rollupConfig(file, (msg, warn) => {
       if (msg.code === 'UNRESOLVED_IMPORT') {
