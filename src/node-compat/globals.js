@@ -1,8 +1,6 @@
-import { Buffer } from 'buffer-es6';
+// eslint-disable-next-line no-underscore-dangle
+export const __dirname = '\0node-globals:dirname'
+// eslint-disable-next-line no-underscore-dangle
+export const __filename = '\0node-globals:filename'
 
-export const __dirname = "\0node-globals:dirname";
-export const __filename = "\0node-globals:filename";
-
-export const global = globalThis;
-
-export const Buffer = Buffer;
+export const global = globalThis

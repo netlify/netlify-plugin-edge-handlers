@@ -1,3 +1,3 @@
-import proc from 'process-es6';
+import proc from 'process-es6'
 
-export const process = proc;
+export const process = proc

@@ -20,11 +20,12 @@ module.exports = {
   overrides: [
     ...overrides,
     {
-      files: ['src/node-compat/assets/*.js', 'test/**/*edge-handlers/*.js'],
+      files: ['src/node-compat/*.js', 'test/**/*edge-handlers/*.js'],
       parserOptions: {
         sourceType: 'module',
       },
       rules: {
+        'node/no-unsupported-features/es-builtins': 0,
         'node/no-unsupported-features/es-syntax': 0,
       },
     },
