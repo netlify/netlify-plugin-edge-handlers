@@ -55,6 +55,7 @@ test('Edge Handlers CLI build bundles custom directories', async (t) => {
 
 test('Edge Handlers CLI outputs missing imports', async (t) => {
   const { code, importee, importer, msg, success } = await runCliBuild('missing-modules')
+
   t.false(success, `failed bundling integration test (${code}): ${msg}`)
   t.is(importee, 'gatsby')
   t.true(importer.length !== 0)

@@ -5,19 +5,12 @@ const os = require('os')
 const path = require('path')
 const process = require('process')
 
-const presetEnv = require('@babel/preset-env')
-const { babel } = require('@rollup/plugin-babel')
-const commonjs = require('@rollup/plugin-commonjs')
-const json = require('@rollup/plugin-json')
-const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const del = require('del')
+const esbuild = require('esbuild')
 const makeDir = require('make-dir')
-const rollup = require('rollup')
-const nodePolyfills = require('rollup-plugin-node-polyfills')
-const { terser } = require('rollup-plugin-terser')
+const outdent = require('outdent')
 
 const { MANIFEST_FILE, MAIN_FILE, CONTENT_TYPE } = require('./consts')
-const nodeGlobals = require('./node-compat/globals')
 const uploadBundle = require('./upload')
 
 function getShasum(buf) {
@@ -43,10 +36,12 @@ async function assemble(EDGE_HANDLERS_SRC) {
 
   const mainContents = handlers
     .map(
-      (handler, index) => `
-import * as func${index} from "${unixify(path.resolve(EDGE_HANDLERS_SRC, handler))}";
-netlifyRegistry.set("${handler}", func${index});`,
+      (handler, index) => outdent`
+        import * as func${index} from "${unixify(path.resolve(EDGE_HANDLERS_SRC, handler))}";
+        netlifyRegistry.set("${handler}", func${index});
+      `,
     )
+    .map((part) => part.trim())
     .join('\n')
   // make temp dir `handlers-abc123`
   const tmpDir = await fsPromises.mkdtemp(path.join(os.tmpdir(), 'handlers-'))
@@ -75,87 +70,21 @@ function getFilename(entry) {
 }
 
 /**
- * @type {import("@rollup/plugin-babel").RollupBabelInputPluginOptions}
- */
-const babelConfig = {
-  exclude: 'node_modules/**',
-  babelHelpers: 'bundled',
-  babelrc: false,
-  configFile: false,
-  presets: [
-    [
-      presetEnv,
-      {
-        targets: {
-          // latest beta release as of this commit (V8 8.6)
-          chrome: '87',
-        },
-      },
-    ],
-  ],
-}
-
-/**
- * Creates a new rollup config bundling the given file.
- *
- * @param {string} file The file to be bundled.
- * @param {*} onWarn Optional: A callback called on a rollup warning.
- */
-const rollupConfig = (file, onWarn) => ({
-  input: file,
-  plugins: [
-    babel(babelConfig),
-    nodeResolve({
-      browser: true,
-      preferBuiltins: false,
-    }),
-    commonjs(),
-    json({
-      compact: true,
-    }),
-    nodeGlobals(),
-    nodePolyfills(),
-    terser(),
-  ],
-  onwarn(msg, warn) {
-    if (typeof onWarn === 'function') {
-      onWarn(msg, warn)
-      return
-    }
-
-    warn(msg)
-  },
-})
-
-/**
  * Bundles the handler code based on a generated entrypoint
  *
  * @param {string} file path of the entrypoint file
  * @returns {Promise<string>} bundled code
  */
 async function bundleFunctions(file, utils) {
-  const options = rollupConfig(file, (msg, warn) => {
-    if (msg.code === 'UNRESOLVED_IMPORT') {
-      utils.build.failBuild(
-        `Error in ${msg.importer}, could not resolve ${msg.source} module. Please install this dependency locally and ensure it is listed in your package.json`,
-      )
-    } else {
-      warn(msg)
-    }
-  })
-
   try {
-    const bundle = await rollup.rollup(options)
-    const {
-      output: [{ code }],
-    } = await bundle.generate({
-      format: 'iife',
-      compact: true,
-    })
-    return code
+    return await bundleFunctionsForCli(file)
   } catch (error) {
-    // This will stop the execution of this plugin.
-    // No Edge Handlers will be uploaded.
+    if (error.code === 'unresolved-import') {
+      const { importee, importer } = error
+      return utils.build.failBuild(
+        `Error in ${importer}, could not resolve ${importee} module. Please install this dependency locally and ensure it is listed in your package.json`,
+      )
+    }
     return utils.build.failBuild('Error while bundling Edge Handlers', { error })
   }
 }
@@ -166,44 +95,76 @@ async function bundleFunctions(file, utils) {
  * @param {string} file path of the entrypoint file
  * @returns {Promise<string>} bundled code
  */
-function bundleFunctionsForCli(file) {
-  return new Promise((resolve, reject) => {
-    const options = rollupConfig(file, (msg, warn) => {
-      if (msg.code === 'UNRESOLVED_IMPORT') {
-        // eslint-disable-next-line prefer-promise-reject-errors
-        reject({
-          code: 'unresolved-import',
-          msg: `Error in ${msg.importer}, could not resolve ${msg.source} module. Please install this dependency locally and ensure it is listed in your package.json.`,
-          importee: msg.source,
-          importer: msg.importer,
-          success: false,
-        })
-      } else {
-        warn(msg)
-      }
+async function bundleFunctionsForCli(file) {
+  let result
+  try {
+    result = await esbuild.build({
+      entryPoints: [file],
+      bundle: true,
+      format: 'iife',
+      inject: [
+        require.resolve('./node-compat/globals'),
+        require.resolve('./node-compat/process'),
+        require.resolve('./node-compat/buffer'),
+      ],
+      minify: true,
+      target: 'chrome92',
+      treeShaking: true,
+      write: false,
+      plugins: [
+        {
+          name: 'replaceImports',
+          setup(build) {
+            // Redirect imports from the `process` nodejs module to our global
+            build.onResolve({ filter: /^process$/ }, () => ({ path: require.resolve('process-es6') }))
+          },
+        },
+      ],
     })
+  } catch (error) {
+    if (error.errors.length === 0) {
+      // eslint-disable-next-line no-throw-literal
+      throw {
+        code: 'unknown',
+        msg: `Error while building Edge Handlers: ${error}`,
+        success: false,
+      }
+    }
 
-    rollup
-      .rollup(options)
-      // eslint-disable-next-line promise/prefer-await-to-then
-      .then((bundle) =>
-        bundle.generate({
-          format: 'iife',
-          compact: true,
-        }),
-      )
-      // eslint-disable-next-line promise/prefer-await-to-then
-      .then(({ output: [{ code }] }) => resolve(code))
-      // eslint-disable-next-line promise/prefer-await-to-callbacks,promise/prefer-await-to-then
-      .catch((error) =>
-        // eslint-disable-next-line prefer-promise-reject-errors
-        reject({
-          code: 'unknown',
-          msg: `Error while bundling Edge Handlers: ${error.message}`,
-          success: false,
-        }),
-      )
-  })
+    const [innerError] = error.errors
+
+    if (innerError.text.toLowerCase().includes('could not resolve')) {
+      const { column, file: importer, length, lineText } = innerError.location
+      const importee = lineText.slice(column + 1, column + length - 1)
+
+      // eslint-disable-next-line no-throw-literal
+      throw {
+        code: 'unresolved-import',
+        msg: innerError.text,
+        importee,
+        importer,
+        success: false,
+      }
+    } else {
+      // eslint-disable-next-line no-throw-literal
+      throw {
+        code: 'unknown',
+        msg: innerError.text,
+        success: false,
+      }
+    }
+  }
+
+  if (result.outputFiles.length > 1) {
+    // eslint-disable-next-line no-throw-literal
+    throw {
+      code: 'unknown',
+      msg: `esbuild generated ${result.outputFiles.length} files, can only process one`,
+      success: false,
+    }
+  }
+
+  return result.outputFiles[0].text
 }
 
 /**
@@ -270,5 +231,4 @@ module.exports = {
   bundleFunctionsForCli,
   logHandlers,
   publishBundle,
-  rollupConfig,
 }
