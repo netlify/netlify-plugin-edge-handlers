@@ -71,8 +71,8 @@
     "node": "^10.17.0 || >=11.14.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^14.0.0",
-    "@commitlint/config-conventional": "^14.0.0",
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "@netlify/build": "^18.25.1",
     "@netlify/eslint-config-node": "^3.3.7",
     "ava": "^3.12.1",
