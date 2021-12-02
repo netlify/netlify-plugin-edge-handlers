@@ -1,8 +1,8 @@
-const FIXTURES_DIR = `${__dirname}/../fixtures`
+import { fileURLToPath } from 'url'
+
+const FIXTURES_DIR = fileURLToPath(new URL('../fixtures', import.meta.url))
 
 // Resolve fixture name to an absolute path
-const resolveFixtureName = function (fixtureName) {
+export const resolveFixtureName = function (fixtureName) {
   return `${FIXTURES_DIR}/${fixtureName}`
 }
-
-module.exports = { resolveFixtureName }

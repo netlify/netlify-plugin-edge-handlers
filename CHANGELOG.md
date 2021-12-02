@@ -1,5 +1,54 @@
 # Changelog
 
+## [3.0.0](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v2.0.0...v3.0.0) (2021-12-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* use pure ES modules (#689)
+
+### Miscellaneous Chores
+
+* use pure ES modules ([#689](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/689)) ([3e23fd4](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/3e23fd46a4431bdd1f340cb163c1c879817e5b1e))
+
+## [2.0.0](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.22...v2.0.0) (2021-11-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for Node 10 (#676)
+
+### Bug Fixes
+
+* **deps:** update babel monorepo to v7.14.8 ([#461](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/461)) ([5c44519](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/5c445190b34579a74faf52e3fb1154f5bf30117a))
+* **deps:** update babel monorepo to v7.15.0 ([#494](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/494)) ([4cfcf2e](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/4cfcf2e75098d25b51b96b2105a113a19a2cb01b))
+* **deps:** update babel monorepo to v7.15.8 ([#561](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/561)) ([16920c3](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/16920c322c6ccf1d3b7f3d6dd330c37a94a33e71))
+* **deps:** update dependency @babel/preset-env to v7.14.9 ([#476](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/476)) ([ed397bd](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/ed397bd95c7445457c6e5d070f6fe6b9adf1e63c))
+* **deps:** update dependency @babel/preset-env to v7.16.4 ([#665](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/665)) ([4143bbd](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/4143bbde55b2c859c531b1e472ee0129c158e884))
+* **deps:** update dependency @rollup/plugin-commonjs to v21 ([#557](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/557)) ([2bee58e](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/2bee58e080ff72616e50b370a6b382cb1413720f))
+* **deps:** update dependency @types/node to v14.17.11 ([#518](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/518)) ([851afb6](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/851afb667b6c6503626d5bb1f07b7477ea6cbcf0))
+* **deps:** update dependency @types/node to v14.17.21 ([#527](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/527)) ([e64bc3c](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/e64bc3c754ac7480548b7a9c5bc2e11176c73846))
+* **deps:** update dependency @types/node to v14.17.32 ([#589](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/589)) ([cfbb3ee](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/cfbb3ee91b0dcc8e359a730b997851794ea7c976))
+* **deps:** update dependency @types/node to v14.17.6 ([#462](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/462)) ([bdc5b87](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/bdc5b877c8a8f544645f7e2550896da5afba4220))
+* **deps:** update dependency @types/node to v14.17.7 ([#477](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/477)) ([54193a6](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/54193a64d6dc2034fa9f3dcce535775d4b67ab56))
+* **deps:** update dependency @types/node to v14.17.9 ([#492](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/492)) ([b489144](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/b4891441697c85558ec7c2bc6429df1448f605a1))
+* **deps:** update dependency @types/node to v16 ([#593](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/593)) ([23c3860](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/23c3860ba4931876a1ad13327b25f0765410217f))
+* **deps:** update dependency @types/node to v16.11.9 ([#666](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/666)) ([5ae17fd](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/5ae17fde192e7b05209b13728f4c5733c2c739bd))
+* **deps:** update dependency node-fetch to v2.6.6 ([#590](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/590)) ([95cad63](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/95cad63d4fa9fd08506da2f5cf2f719b078d7809))
+* **deps:** update dependency rollup to v2.54.0 ([#464](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/464)) ([b246bb6](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/b246bb682973c2be83d7871d4dd06fc69602b52d))
+* **deps:** update dependency rollup to v2.55.1 ([#479](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/479)) ([092db89](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/092db893a5e60bfda640d298b4a0b6d783f01d30))
+* **deps:** update dependency rollup to v2.56.1 ([#495](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/495)) ([3a93aea](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/3a93aea038370c4aaf732c9815ac59f0523dd465))
+* **deps:** update dependency rollup to v2.56.2 ([#504](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/504)) ([342b971](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/342b9713e6119f2ef9d308cc7ee3acf33218aa8e))
+* **deps:** update dependency rollup to v2.58.3 ([#591](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/591)) ([6ff7525](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/6ff752528383a3efc1357f892b8624c3d43bab20))
+* **deps:** update dependency rollup to v2.59.0 ([#640](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/640)) ([b2235d3](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/b2235d339e50627cb21d02edd92209eb58fb654d))
+* **deps:** update dependency rollup to v2.60.0 ([#654](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/654)) ([7ebc9c5](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/7ebc9c5f2f9778c68f17c03405d83a8e73e5b74a))
+* **deps:** update dependency typescript to v4.5.2 ([#668](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/668)) ([fd676f1](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/fd676f1a60fd8ba6d06f0540d92a20c53062fd9c))
+
+
+### Miscellaneous Chores
+
+* drop support for Node 10 ([#676](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/676)) ([c750bbb](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/c750bbb65c8d63ebb86cb8fa2fb5619d06aee5a1))
+
 ### [1.11.22](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.21...v1.11.22) (2021-07-19)
 
 
