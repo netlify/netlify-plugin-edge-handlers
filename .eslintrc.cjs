@@ -16,10 +16,6 @@ module.exports = {
     'max-statements': 0,
     'no-magic-numbers': 0,
     'require-await': 0,
-    'fp/no-delete': 0,
-    'fp/no-let': 0,
-    'fp/no-mutating-methods': 0,
-    'fp/no-mutation': 0,
   },
   overrides: [...overrides],
 }
