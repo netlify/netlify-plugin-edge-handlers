@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v2.0.0...v3.0.0) (2021-12-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* use pure ES modules (#689)
+
+### Miscellaneous Chores
+
+* use pure ES modules ([#689](https://www.github.com/netlify/netlify-plugin-edge-handlers/issues/689)) ([3e23fd4](https://www.github.com/netlify/netlify-plugin-edge-handlers/commit/3e23fd46a4431bdd1f340cb163c1c879817e5b1e))
+
 ## [2.0.0](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v1.11.22...v2.0.0) (2021-11-25)
 
 
