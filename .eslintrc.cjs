@@ -7,9 +7,6 @@ module.exports = {
   },
   rules: {
     'import/extensions': [2, 'ignorePackages'],
-    // TODO: remove once bug in eslint-plugin-node is fixed:
-    // https://github.com/mysticatea/eslint-plugin-node/issues/250
-    'node/no-unsupported-features/es-syntax': [2, { ignores: ['modules', 'dynamicImport'] }],
     // Those rules from @netlify/eslint-config-node are currently disabled
     // TODO: remove, so those rules are enabled
     complexity: 0,
