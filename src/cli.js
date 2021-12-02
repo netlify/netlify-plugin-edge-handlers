@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-const path = require('path')
-const process = require('process')
+import { resolve } from 'path'
+import { argv } from 'process'
 
-const { isDirectory } = require('path-type')
+import { isDirectory } from 'path-type'
 
-const { assemble, bundleFunctionsForCli } = require('./lib')
+import { assemble, bundleFunctionsForCli } from './lib.js'
 
 const build = async ({ EDGE_HANDLERS_SRC }) => {
-  const srcDir = path.resolve(EDGE_HANDLERS_SRC)
+  const srcDir = resolve(EDGE_HANDLERS_SRC)
 
   if (!(await isDirectory(srcDir))) {
     console.log(
@@ -54,7 +54,7 @@ const build = async ({ EDGE_HANDLERS_SRC }) => {
 }
 
 const main = async () => {
-  const [, bin, command, EDGE_HANDLERS_SRC] = process.argv
+  const [, bin, command, EDGE_HANDLERS_SRC] = argv
 
   const USAGE = `Usage: ${bin} build <Edge Handlers directory>`
 

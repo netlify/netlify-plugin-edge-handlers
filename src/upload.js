@@ -1,6 +1,6 @@
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
 
-const { CONTENT_TYPE } = require('./consts')
+import { CONTENT_TYPE } from './consts.js'
 
 /**
  * @typedef {{ sha: string, handlers: string[], content_length: number, content_type: string }} BundleInfo
@@ -16,7 +16,7 @@ const { CONTENT_TYPE } = require('./consts')
  * @param {string} apiToken token for authorizing on the API
  * @returns {Promise<boolean>} Whether the bundle was newly uploaded (and did not already exist)
  */
-async function uploadBundle(buf, info, deployId, apiHost, apiToken) {
+export const uploadBundle = async function (buf, info, deployId, apiHost, apiToken) {
   if (!apiToken) {
     throw new Error('API token is missing')
   }
@@ -55,5 +55,3 @@ async function uploadBundle(buf, info, deployId, apiHost, apiToken) {
 
   return true
 }
-
-module.exports = uploadBundle

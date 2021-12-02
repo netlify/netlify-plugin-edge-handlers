@@ -2,7 +2,14 @@ const { overrides } = require('@netlify/eslint-config-node')
 
 module.exports = {
   extends: '@netlify/eslint-config-node',
+  parserOptions: {
+    sourceType: 'module',
+  },
   rules: {
+    'import/extensions': [2, 'ignorePackages'],
+    // TODO: remove once bug in eslint-plugin-node is fixed:
+    // https://github.com/mysticatea/eslint-plugin-node/issues/250
+    'node/no-unsupported-features/es-syntax': [2, { ignores: ['modules', 'dynamicImport'] }],
     // Those rules from @netlify/eslint-config-node are currently disabled
     // TODO: remove, so those rules are enabled
     complexity: 0,
@@ -17,16 +24,5 @@ module.exports = {
     'fp/no-mutating-methods': 0,
     'fp/no-mutation': 0,
   },
-  overrides: [
-    ...overrides,
-    {
-      files: ['src/node-compat/assets/*.js', 'test/**/*edge-handlers/*.js'],
-      parserOptions: {
-        sourceType: 'module',
-      },
-      rules: {
-        'node/no-unsupported-features/es-syntax': 0,
-      },
-    },
-  ],
+  overrides: [...overrides],
 }

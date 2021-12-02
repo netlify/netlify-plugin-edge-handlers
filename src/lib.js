@@ -1,27 +1,27 @@
-const { Buffer } = require('buffer')
-const crypto = require('crypto')
-const { promises: fsPromises } = require('fs')
-const os = require('os')
-const path = require('path')
-const process = require('process')
+import { Buffer } from 'buffer'
+import { createHash } from 'crypto'
+import { promises as fsPromises } from 'fs'
+import { tmpdir } from 'os'
+import { resolve as resolvePath, join, extname, basename } from 'path'
+import { env, platform } from 'process'
 
-const presetEnv = require('@babel/preset-env')
-const { babel } = require('@rollup/plugin-babel')
-const commonjs = require('@rollup/plugin-commonjs')
-const json = require('@rollup/plugin-json')
-const { nodeResolve } = require('@rollup/plugin-node-resolve')
-const del = require('del')
-const makeDir = require('make-dir')
-const rollup = require('rollup')
-const nodePolyfills = require('rollup-plugin-node-polyfills')
-const { terser } = require('rollup-plugin-terser')
+import presetEnv from '@babel/preset-env'
+import { babel } from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import del from 'del'
+import makeDir from 'make-dir'
+import { rollup } from 'rollup'
+import nodePolyfills from 'rollup-plugin-node-polyfills'
+import { terser } from 'rollup-plugin-terser'
 
-const { MANIFEST_FILE, MAIN_FILE, CONTENT_TYPE } = require('./consts')
-const nodeGlobals = require('./node-compat/globals')
-const uploadBundle = require('./upload')
+import { MANIFEST_FILE, MAIN_FILE, CONTENT_TYPE } from './consts.js'
+import { nodeGlobals } from './node-compat/globals.js'
+import { uploadBundle } from './upload.js'
 
 function getShasum(buf) {
-  const shasum = crypto.createHash('sha1')
+  const shasum = createHash('sha1')
   shasum.update(buf)
   return shasum.digest('hex')
 }
@@ -33,7 +33,7 @@ function getShasum(buf) {
  * @param {string} EDGE_HANDLERS_SRC path to the edge handler directory
  * @returns {Promise<{ handlers: string[], mainFile: string }>} list of handlers and path to entrypoint
  */
-async function assemble(EDGE_HANDLERS_SRC) {
+export const assemble = async function (EDGE_HANDLERS_SRC) {
   const entries = await fsPromises.readdir(EDGE_HANDLERS_SRC, { withFileTypes: true })
   const handlers = entries.filter(isHandlerFile).map(getFilename)
 
@@ -44,20 +44,20 @@ async function assemble(EDGE_HANDLERS_SRC) {
   const mainContents = handlers
     .map(
       (handler, index) => `
-import * as func${index} from "${unixify(path.resolve(EDGE_HANDLERS_SRC, handler))}";
+import * as func${index} from "${unixify(resolvePath(EDGE_HANDLERS_SRC, handler))}";
 netlifyRegistry.set("${handler}", func${index});`,
     )
     .join('\n')
   // make temp dir `handlers-abc123`
-  const tmpDir = await fsPromises.mkdtemp(path.join(os.tmpdir(), 'handlers-'))
-  const mainFile = path.join(tmpDir, MAIN_FILE)
+  const tmpDir = await fsPromises.mkdtemp(join(tmpdir(), 'handlers-'))
+  const mainFile = join(tmpDir, MAIN_FILE)
   await fsPromises.writeFile(mainFile, mainContents)
   return { handlers, mainFile }
 }
 
 // ES modules requires forward slashes
 function unixify(filePath) {
-  if (process.platform !== 'win32') {
+  if (platform !== 'win32') {
     return filePath
   }
 
@@ -67,11 +67,11 @@ function unixify(filePath) {
 const UNIXIFY_REGEXP = /\\/g
 
 function isHandlerFile(entry) {
-  return path.extname(entry.name) === '.js' && entry.isFile()
+  return extname(entry.name) === '.js' && entry.isFile()
 }
 
 function getFilename(entry) {
-  return path.basename(entry.name, path.extname(entry.name))
+  return basename(entry.name, extname(entry.name))
 }
 
 /**
@@ -133,7 +133,7 @@ const rollupConfig = (file, onWarn) => ({
  * @param {string} file path of the entrypoint file
  * @returns {Promise<string>} bundled code
  */
-async function bundleFunctions(file, utils) {
+export const bundleFunctions = async function (file, utils) {
   const options = rollupConfig(file, (msg, warn) => {
     if (msg.code === 'UNRESOLVED_IMPORT') {
       utils.build.failBuild(
@@ -145,7 +145,7 @@ async function bundleFunctions(file, utils) {
   })
 
   try {
-    const bundle = await rollup.rollup(options)
+    const bundle = await rollup(options)
     const {
       output: [{ code }],
     } = await bundle.generate({
@@ -166,7 +166,7 @@ async function bundleFunctions(file, utils) {
  * @param {string} file path of the entrypoint file
  * @returns {Promise<string>} bundled code
  */
-function bundleFunctionsForCli(file) {
+export const bundleFunctionsForCli = function (file) {
   return new Promise((resolve, reject) => {
     const options = rollupConfig(file, (msg, warn) => {
       if (msg.code === 'UNRESOLVED_IMPORT') {
@@ -183,8 +183,7 @@ function bundleFunctionsForCli(file) {
       }
     })
 
-    rollup
-      .rollup(options)
+    rollup(options)
       // eslint-disable-next-line promise/prefer-await-to-then
       .then((bundle) =>
         bundle.generate({
@@ -217,7 +216,7 @@ function bundleFunctionsForCli(file) {
  * @param {string | null} apiToken Netlify API token used for uploads
  * @returns {Promise<boolean>}
  */
-async function publishBundle(bundle, handlers, outputDir, isLocal, apiHost, apiToken) {
+export const publishBundle = async function (bundle, handlers, outputDir, isLocal, apiHost, apiToken) {
   // encode bundle into bytes
   const buf = Buffer.from(bundle, 'utf-8')
   const sha = getShasum(buf)
@@ -238,14 +237,14 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiHost, apiT
     await makeDir(outputDir)
 
     // bundled handlers
-    const outputFile = path.join(outputDir, bundleInfo.sha)
+    const outputFile = `${outputDir}/${sha}`
     await fsPromises.writeFile(outputFile, bundle, 'utf-8')
 
     // manifest
-    const manifestFile = path.join(outputDir, MANIFEST_FILE)
+    const manifestFile = `${outputDir}/${MANIFEST_FILE}`
     await fsPromises.writeFile(manifestFile, JSON.stringify(bundleInfo, null, 2))
   } else {
-    const uploaded = await uploadBundle(buf, bundleInfo, process.env.DEPLOY_ID, apiHost, apiToken)
+    const uploaded = await uploadBundle(buf, bundleInfo, env.DEPLOY_ID, apiHost, apiToken)
     if (!uploaded) {
       console.log('Bundle already exists. Skipping upload...')
     }
@@ -255,20 +254,11 @@ async function publishBundle(bundle, handlers, outputDir, isLocal, apiHost, apiT
   return false
 }
 
-function logHandlers(handlers, EDGE_HANDLERS_SRC) {
+export const logHandlers = function (handlers, EDGE_HANDLERS_SRC) {
   const handlersString = handlers.map(serializeHandler).join('\n')
   console.log(`Packaging Edge Handlers from ${EDGE_HANDLERS_SRC} directory:\n${handlersString}`)
 }
 
 function serializeHandler(handler) {
   return ` - ${handler}`
-}
-
-module.exports = {
-  assemble,
-  bundleFunctions,
-  bundleFunctionsForCli,
-  logHandlers,
-  publishBundle,
-  rollupConfig,
 }
