@@ -1,4 +1,4 @@
-import sinon from 'sinon'
+import { spy } from 'sinon'
 
 // Normalize `netlifyRegistry.set()` spied calls to an object
 export const normalizeHandler = function ([name, { onRequest }]) {
@@ -24,8 +24,7 @@ export const callHandler = async function (t, handlers, name, event) {
 // Temporarily mock `console.log()` in order to retrieve the logs
 const mockConsoleLog = function () {
   const oldConsoleLog = console.log
-  // eslint-disable-next-line import/no-named-as-default-member
-  console.log = sinon.spy()
+  console.log = spy()
   return oldConsoleLog
 }
 

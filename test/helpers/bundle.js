@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import { pathToFileURL } from 'url'
 
 import isPlainObj from 'is-plain-obj'
-import sinon from 'sinon'
+import { spy } from 'sinon'
 
 import { resolveFixtureName } from './fixtures.js'
 import { normalizeHandler, isValidHandler } from './handler.js'
@@ -44,8 +44,7 @@ const validateManifest = function (t, manifest) {
 // Require the bundle file.
 // Spy on `netlifyRegistry.set()` to retrieve the list of handlers.
 const requireBundle = async function (jsBundlePath) {
-  // eslint-disable-next-line import/no-named-as-default-member
-  const setRegistry = sinon.spy()
+  const setRegistry = spy()
   global.netlifyRegistry = { set: setRegistry }
   // `import()` arguments are URLs, not file paths.
   // Therefore, `pathToFileURL()` is needed, especially since `jsBundlePath`
