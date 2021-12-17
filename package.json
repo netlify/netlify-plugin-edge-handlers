@@ -75,7 +75,7 @@
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
-    "@netlify/build": "^25.0.1",
+    "@netlify/build": "^25.0.2",
     "@netlify/eslint-config-node": "^4.0.1",
     "ava": "^3.12.1",
     "date-fns": "^2.15.0",
