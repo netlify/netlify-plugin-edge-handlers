@@ -1,28 +1,33 @@
-const isPlainObj = require('is-plain-obj')
-const sinon = require('sinon')
+import { promises as fs } from 'fs'
+import { pathToFileURL } from 'url'
 
-const { resolveFixtureName } = require('./fixtures')
-const { normalizeHandler, isValidHandler } = require('./handler')
+import isPlainObj from 'is-plain-obj'
+import { spy } from 'sinon'
+
+import { resolveFixtureName } from './fixtures.js'
+import { normalizeHandler, isValidHandler } from './handler.js'
 
 // Retrieve Edge Handlers bundled handlers
-const loadBundle = function (t, fixtureName) {
-  const { manifest, bundlePath } = loadManifest(t, fixtureName)
-  const handlers = requireBundle(t, bundlePath)
+export const loadBundle = async function (t, fixtureName) {
+  const { manifest, jsBundlePath } = await loadManifest(t, fixtureName)
+  const handlers = await requireBundle(jsBundlePath)
+  t.true(handlers.every(isValidHandler))
   return { manifest, handlers }
 }
 
 // Load Edge Handlers `manifest.json`
-const loadManifest = function (t, fixtureName) {
+const loadManifest = async function (t, fixtureName) {
   const fixtureDir = resolveFixtureName(fixtureName)
   const localOutDir = `${fixtureDir}/.netlify/edge-handlers`
-  const manifestPath = `${localOutDir}/manifest.json`
-  // eslint-disable-next-line import/no-dynamic-require, node/global-require
-  const manifest = require(manifestPath)
+  const manifestContents = await fs.readFile(`${localOutDir}/manifest.json`, 'utf8')
+  const manifest = JSON.parse(manifestContents)
 
   validateManifest(t, manifest)
 
   const bundlePath = `${localOutDir}/${manifest.sha}`
-  return { localOutDir, manifest, bundlePath }
+  const jsBundlePath = `${bundlePath}.js`
+  await fs.rename(bundlePath, jsBundlePath)
+  return { localOutDir, manifest, jsBundlePath }
 }
 
 // Validate that manifest.json has the correct shape
@@ -38,16 +43,15 @@ const validateManifest = function (t, manifest) {
 
 // Require the bundle file.
 // Spy on `netlifyRegistry.set()` to retrieve the list of handlers.
-const requireBundle = function (t, bundlePath) {
-  const setRegistry = sinon.spy()
+const requireBundle = async function (jsBundlePath) {
+  const setRegistry = spy()
   global.netlifyRegistry = { set: setRegistry }
-  // eslint-disable-next-line import/no-dynamic-require, node/global-require
-  require(bundlePath)
+  // `import()` arguments are URLs, not file paths.
+  // Therefore, `pathToFileURL()` is needed, especially since `jsBundlePath`
+  // is absolute, which means it has a drive letter on Windows.
+  await import(pathToFileURL(jsBundlePath))
   delete global.netlifyRegistry
 
   const handlers = setRegistry.args.map(normalizeHandler)
-  t.true(handlers.every(isValidHandler))
   return handlers
 }
-
-module.exports = { loadBundle }

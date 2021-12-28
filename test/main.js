@@ -1,13 +1,13 @@
-const test = require('ava')
+import test from 'ava'
 
-const { loadBundle } = require('./helpers/bundle')
-const { callHandler } = require('./helpers/handler')
-const { runCliBuild, runNetlifyBuild } = require('./helpers/run')
+import { loadBundle } from './helpers/bundle.js'
+import { callHandler } from './helpers/handler.js'
+import { runCliBuild, runNetlifyBuild } from './helpers/run.js'
 
 test('Edge Handlers should be bundled', async (t) => {
   await runNetlifyBuild(t, 'integration-test')
 
-  const { manifest, handlers } = loadBundle(t, 'integration-test')
+  const { manifest, handlers } = await loadBundle(t, 'integration-test')
   t.deepEqual(manifest.handlers.sort(), ['example', 'hello_world'])
 
   const example = await callHandler(t, handlers, 'example')
@@ -22,7 +22,7 @@ test('Edge Handlers should be bundled', async (t) => {
 test('Edge Handlers directory can be configured using build.edge_handlers', async (t) => {
   await runNetlifyBuild(t, 'config-dir')
 
-  const { manifest } = loadBundle(t, 'config-dir')
+  const { manifest } = await loadBundle(t, 'config-dir')
   t.deepEqual(manifest.handlers, ['example'])
 })
 
@@ -63,7 +63,7 @@ test('Edge Handlers CLI outputs missing imports', async (t) => {
 
 test('Edge Handlers should polyfill node built in modules', async (t) => {
   await runNetlifyBuild(t, 'node-polyfills')
-  const { manifest, handlers } = loadBundle(t, 'node-polyfills')
+  const { manifest, handlers } = await loadBundle(t, 'node-polyfills')
   t.deepEqual(manifest.handlers, ['process_version'])
 
   const processVersion = await callHandler(t, handlers, 'process_version')

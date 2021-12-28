@@ -1,18 +1,18 @@
-const sinon = require('sinon')
+import { spy } from 'sinon'
 
 // Normalize `netlifyRegistry.set()` spied calls to an object
-const normalizeHandler = function ([name, { onRequest }]) {
+export const normalizeHandler = function ([name, { onRequest }]) {
   return { name, onRequest }
 }
 
 // Check whether the handler have the correct shape
-const isValidHandler = function ({ name, onRequest }) {
+export const isValidHandler = function ({ name, onRequest }) {
   return typeof name === 'string' && typeof onRequest === 'function'
 }
 
 // Call `onRequest(event)` on a specific handler.
 // Retrieve both the handler's return value and logs (`console.log()`)
-const callHandler = async function (t, handlers, name, event) {
+export const callHandler = async function (t, handlers, name, event) {
   const exampleHandler = handlers.find((handler) => handler.name === name)
   t.true(exampleHandler !== undefined)
   const oldConsoleLog = mockConsoleLog()
@@ -24,7 +24,7 @@ const callHandler = async function (t, handlers, name, event) {
 // Temporarily mock `console.log()` in order to retrieve the logs
 const mockConsoleLog = function () {
   const oldConsoleLog = console.log
-  console.log = sinon.spy()
+  console.log = spy()
   return oldConsoleLog
 }
 
@@ -33,5 +33,3 @@ const unmockConsoleLog = function (oldConsoleLog) {
   console.log = oldConsoleLog
   return logs
 }
-
-module.exports = { normalizeHandler, isValidHandler, callHandler }
