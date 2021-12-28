@@ -79,7 +79,7 @@
     "@netlify/eslint-config-node": "^4.0.4",
     "ava": "^3.12.1",
     "date-fns": "^2.15.0",
-    "eslint": "^7.7.0",
+    "eslint": "^8.0.0",
     "eslint-config-prettier": "^8.0.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",
