@@ -13,20 +13,30 @@ codebase locally and symlink this plugin to that repo. To do so:
 
 1. Clone the build repo and install dependencies
 
-```sh
-git clone git@github.com:netlify/build.git
+    ```sh
+    git clone git@github.com:netlify/build.git
+    npm i
+    ```
 
-npm i
-```
+2. Create a symlink from `netlify-build/packages/build/node_modules/@netlify/plugin-edge-handlers` towards the Edge
+   handlers plugin's root directory
 
-2. Create a symlink from netlify-build/packages/build/node_modules/@netlify/plugin-edge-handlers towards the Edge
-   handlers plugin's root directory. You can do this manually with `ln -s` or `npm link`
+   ```sh
+   # manual way
+   ln -s
+   # or
+   npm link
+   ```
 
-3. To verify that this step worked, cd /path/to/netlify-build/packages/build, then node -p
-   'require("@netlify/plugin-edge-handlers")' which should print the onPostBuild exported function
+3. To verify that the previous step worked, do the following:
+
+    ```sh
+    cd /path/to/netlify-build/packages/build
+    node -p 'require("@netlify/plugin-edge-handlers")' # prints the `onPostBuild` exported function
+    ```
 
 4. Run the plugin locally in your project by typing in your project directory:
 
-```sh
-/path/to/netlify-build/packages/build/src/core/bin.js
-```
+    ```sh
+    /path/to/netlify-build/packages/build/src/core/bin.js
+    ```
