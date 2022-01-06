@@ -38,5 +38,5 @@ codebase locally and symlink this plugin to that repo. To do so:
 4. Run the plugin locally in your project by typing in your project directory:
 
     ```sh
-    /path/to/netlify-build/packages/build/src/core/bin.js
+    node /path/to/netlify-build/packages/build/src/core/bin.js
     ```
