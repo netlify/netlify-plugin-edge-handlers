@@ -11,7 +11,6 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import del from 'del'
-import makeDir from 'make-dir'
 import { rollup } from 'rollup'
 import nodePolyfills from 'rollup-plugin-node-polyfills'
 import { terser } from 'rollup-plugin-terser'
@@ -234,7 +233,7 @@ export const publishBundle = async function (bundle, handlers, outputDir, isLoca
     // cleanup previous handlers
     await del(outputDir)
 
-    await makeDir(outputDir)
+    await fsPromises.mkdir(outputDir, { recursive: true })
 
     // bundled handlers
     const outputFile = `${outputDir}/${sha}`
