@@ -11,15 +11,15 @@ Handlers to work.
 To run this plugin locally in an existing project that has Edge Handlers, you'll need to install the netlify build
 codebase locally and symlink this plugin to that repo. To do so:
 
-1. Clone the build repo and install dependencies
+1. Clone the build repo and install dependencies:
 
     ```sh
-    git clone git@github.com:netlify/build.git
+    git clone https://github.com/netlify/netlify-plugin-edge-handlers.git
     npm i
     ```
 
 2. Create a symlink from `netlify-build/packages/build/node_modules/@netlify/plugin-edge-handlers` towards the Edge
-   handlers plugin's root directory
+   handlers plugin's root directory:
 
    ```sh
    # manual way
@@ -28,7 +28,7 @@ codebase locally and symlink this plugin to that repo. To do so:
    npm link
    ```
 
-3. To verify that the previous step worked, do the following:
+3. Verify that the previous step worked:
 
     ```sh
     cd /path/to/netlify-build/packages/build
