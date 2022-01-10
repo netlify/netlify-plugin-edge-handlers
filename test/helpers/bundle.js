@@ -19,7 +19,7 @@ export const loadBundle = async function (t, fixtureName) {
 const loadManifest = async function (t, fixtureName) {
   const fixtureDir = resolveFixtureName(fixtureName)
   const localOutDir = `${fixtureDir}/.netlify/edge-handlers`
-  const manifestContents = await fs.readFile(`${localOutDir}/manifest.json`, 'utf8')
+  const manifestContents = await fs.readFile(`${localOutDir}/manifest.json`)
   const manifest = JSON.parse(manifestContents)
 
   validateManifest(t, manifest)
