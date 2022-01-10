@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: '*'
           check-latest: true
+          cache: npm
           registry-url: 'https://registry.npmjs.org'
         if: ${{ steps.release.outputs.release_created }}
       - name: Install dependencies
