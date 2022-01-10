@@ -1,5 +1,12 @@
 # Changelog
 
+### [3.0.2](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.1...v3.0.2) (2022-01-10)
+
+
+### Bug Fixes
+
+* remove the unused typescript dependency ([#835](https://github.com/netlify/netlify-plugin-edge-handlers/issues/835)) ([dc09c1a](https://github.com/netlify/netlify-plugin-edge-handlers/commit/dc09c1a3fec9748f3825e344d9aed2764ea004c2))
+
 ### [3.0.1](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.0...v3.0.1) (2022-01-10)
 
 
