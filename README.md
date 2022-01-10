@@ -14,7 +14,7 @@ codebase locally and symlink this plugin to that repo. To do so:
 1. Clone the build repo and install dependencies:
 
     ```sh
-    git clone https://github.com/netlify/netlify-plugin-edge-handlers.git
+    git clone git@github.com:netlify/build.git
     npm i
     ```
 
