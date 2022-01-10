@@ -1,5 +1,12 @@
 # Changelog
 
+### [3.0.1](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.0...v3.0.1) (2022-01-10)
+
+
+### Bug Fixes
+
+* remove unneeded devDependencies ([#829](https://github.com/netlify/netlify-plugin-edge-handlers/issues/829)) ([0994348](https://github.com/netlify/netlify-plugin-edge-handlers/commit/0994348da34441ab68c66322b1514906f4f9b3df))
+
 ## [3.0.0](https://www.github.com/netlify/netlify-plugin-edge-handlers/compare/v2.0.0...v3.0.0) (2021-12-02)
 
 
