@@ -1,5 +1,12 @@
 # Changelog
 
+### [3.0.3](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.2...v3.0.3) (2022-01-13)
+
+
+### Bug Fixes
+
+* **deps:** remove the unneeded `@types/node` dependency ([#842](https://github.com/netlify/netlify-plugin-edge-handlers/issues/842)) ([7362319](https://github.com/netlify/netlify-plugin-edge-handlers/commit/73623198acaeb01b9dbff5269ab50c03e3171f13))
+
 ### [3.0.2](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.1...v3.0.2) (2022-01-10)
 
 
