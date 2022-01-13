@@ -50,7 +50,6 @@
     "@rollup/plugin-inject": "^4.0.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
-    "@types/node": "^16.0.0",
     "buffer-es6": "^4.9.3",
     "del": "^6.0.0",
     "node-fetch": "^2.6.1",
