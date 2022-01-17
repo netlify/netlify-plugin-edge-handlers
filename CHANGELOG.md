@@ -1,5 +1,14 @@
 # Changelog
 
+### [3.0.4](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.3...v3.0.4) (2022-01-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @babel/preset-env to v7.16.8 ([#848](https://github.com/netlify/netlify-plugin-edge-handlers/issues/848)) ([1d82dc0](https://github.com/netlify/netlify-plugin-edge-handlers/commit/1d82dc04a81ba5d84723538be0defa04a9c24851))
+* **deps:** update dependency node-fetch to v2.6.7 ([#849](https://github.com/netlify/netlify-plugin-edge-handlers/issues/849)) ([2a283b3](https://github.com/netlify/netlify-plugin-edge-handlers/commit/2a283b36ec93c9bcb7dc674a8deb890c9c55545b))
+* **deps:** update dependency rollup to v2.64.0 ([#850](https://github.com/netlify/netlify-plugin-edge-handlers/issues/850)) ([6127795](https://github.com/netlify/netlify-plugin-edge-handlers/commit/61277956a2cbbaca9e1c25a2dae7947a73ea3e4f))
+
 ### [3.0.3](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.2...v3.0.3) (2022-01-13)
 
 
