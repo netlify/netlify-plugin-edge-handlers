@@ -26,6 +26,7 @@
     "test:ci": "run-s test:ci:*",
     "test:dev:ava": "ava",
     "test:ci:ava": "c8 -r lcovonly -r text -r json ava",
+    "prepare": "husky install node_modules/@netlify/eslint-config-node/.husky/",
     "prepublishOnly": "run-s prepublishOnly:*",
     "prepublishOnly:checkout": "run-local \"git checkout main\"",
     "prepublishOnly:pull": "run-local \"git pull\"",
@@ -65,6 +66,7 @@
     "ava": "^4.0.0",
     "c8": "^7.11.0",
     "date-fns": "^2.15.0",
+    "husky": "^7.0.4",
     "is-plain-obj": "^3.0.0",
     "sinon": "^12.0.0"
   },
@@ -77,11 +79,6 @@
   },
   "engines": {
     "node": "^12.20.0 || ^14.14.0 || >=16.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "ava": {
     "timeout": "120s",
