@@ -67,7 +67,7 @@
     "c8": "^7.11.0",
     "date-fns": "^2.15.0",
     "husky": "^7.0.4",
-    "is-plain-obj": "^3.0.0",
+    "is-plain-obj": "^4.0.0",
     "sinon": "^13.0.0"
   },
   "repository": {
