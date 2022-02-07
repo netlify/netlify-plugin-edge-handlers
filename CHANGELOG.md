@@ -1,5 +1,13 @@
 # Changelog
 
+### [3.0.6](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.5...v3.0.6) (2022-02-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency node-fetch to v3 ([#874](https://github.com/netlify/netlify-plugin-edge-handlers/issues/874)) ([7a76ab0](https://github.com/netlify/netlify-plugin-edge-handlers/commit/7a76ab019e32343205e1541e2b80b9bbf2ebcf71))
+* **deps:** update dependency path-type to v5 ([#875](https://github.com/netlify/netlify-plugin-edge-handlers/issues/875)) ([7e04ac2](https://github.com/netlify/netlify-plugin-edge-handlers/commit/7e04ac21ddbe9b6b5874bc7c4a0f4d2f35ee402c))
+
 ### [3.0.5](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.4...v3.0.5) (2022-02-07)
 
 
