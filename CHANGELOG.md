@@ -1,5 +1,24 @@
 # Changelog
 
+### [3.0.6](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.5...v3.0.6) (2022-02-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency node-fetch to v3 ([#874](https://github.com/netlify/netlify-plugin-edge-handlers/issues/874)) ([7a76ab0](https://github.com/netlify/netlify-plugin-edge-handlers/commit/7a76ab019e32343205e1541e2b80b9bbf2ebcf71))
+* **deps:** update dependency path-type to v5 ([#875](https://github.com/netlify/netlify-plugin-edge-handlers/issues/875)) ([7e04ac2](https://github.com/netlify/netlify-plugin-edge-handlers/commit/7e04ac21ddbe9b6b5874bc7c4a0f4d2f35ee402c))
+
+### [3.0.5](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.4...v3.0.5) (2022-02-07)
+
+
+### Bug Fixes
+
+* **deps:** update babel monorepo ([#860](https://github.com/netlify/netlify-plugin-edge-handlers/issues/860)) ([a5b8892](https://github.com/netlify/netlify-plugin-edge-handlers/commit/a5b8892d64444f06fe4a13dc15862a0b5fc532ed))
+* **deps:** update dependency @babel/core to v7.17.0 ([#877](https://github.com/netlify/netlify-plugin-edge-handlers/issues/877)) ([e3e2020](https://github.com/netlify/netlify-plugin-edge-handlers/commit/e3e202026dad7fd0f2d30882624d7ca014612733))
+* **deps:** update dependency rollup to v2.66.0 ([#861](https://github.com/netlify/netlify-plugin-edge-handlers/issues/861)) ([db15536](https://github.com/netlify/netlify-plugin-edge-handlers/commit/db15536c3f746ab70caa8f3f08f1a88d558d0d59))
+* **deps:** update dependency rollup to v2.66.1 ([#866](https://github.com/netlify/netlify-plugin-edge-handlers/issues/866)) ([6caacce](https://github.com/netlify/netlify-plugin-edge-handlers/commit/6caacce5069d5cd66a5af8b8a3264e65b6579c74))
+* **deps:** update dependency rollup to v2.67.0 ([#878](https://github.com/netlify/netlify-plugin-edge-handlers/issues/878)) ([8925a2b](https://github.com/netlify/netlify-plugin-edge-handlers/commit/8925a2b01d637f1207977b9d0c45fd38f290b710))
+
 ### [3.0.4](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.3...v3.0.4) (2022-01-17)
 
 
