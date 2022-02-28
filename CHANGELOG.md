@@ -1,5 +1,18 @@
 # Changelog
 
+### [3.0.7](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.6...v3.0.7) (2022-02-28)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @babel/core to v7.17.2 ([#887](https://github.com/netlify/netlify-plugin-edge-handlers/issues/887)) ([777cc04](https://github.com/netlify/netlify-plugin-edge-handlers/commit/777cc049e3a0dbef3352254a75a2a80c15bfe3a1))
+* **deps:** update dependency @babel/core to v7.17.5 ([#893](https://github.com/netlify/netlify-plugin-edge-handlers/issues/893)) ([3f3da3f](https://github.com/netlify/netlify-plugin-edge-handlers/commit/3f3da3f1306ce210132ab29e9f59ee85cf236a3a))
+* **deps:** update dependency @rollup/plugin-babel to v5.3.1 ([#903](https://github.com/netlify/netlify-plugin-edge-handlers/issues/903)) ([94d5ed6](https://github.com/netlify/netlify-plugin-edge-handlers/commit/94d5ed68f50cf57d860f3ccff2c5c9de1cecd144))
+* **deps:** update dependency @rollup/plugin-commonjs to v21.0.2 ([#904](https://github.com/netlify/netlify-plugin-edge-handlers/issues/904)) ([6145f4e](https://github.com/netlify/netlify-plugin-edge-handlers/commit/6145f4ea8aa6d8171d732e2e3e8455a263e18bc9))
+* **deps:** update dependency rollup to v2.67.2 ([#888](https://github.com/netlify/netlify-plugin-edge-handlers/issues/888)) ([33c2d0d](https://github.com/netlify/netlify-plugin-edge-handlers/commit/33c2d0dfd445cf3a1e6cf1a2a251f59da87284e7))
+* **deps:** update dependency rollup to v2.67.3 ([#894](https://github.com/netlify/netlify-plugin-edge-handlers/issues/894)) ([44bf5a9](https://github.com/netlify/netlify-plugin-edge-handlers/commit/44bf5a90d44c689fda70ff4e0d7a5d220bab11f0))
+* **deps:** update dependency rollup to v2.68.0 ([#905](https://github.com/netlify/netlify-plugin-edge-handlers/issues/905)) ([b9d1f7d](https://github.com/netlify/netlify-plugin-edge-handlers/commit/b9d1f7d00ada3e6988238dd3f389994ca398727d))
+
 ### [3.0.6](https://github.com/netlify/netlify-plugin-edge-handlers/compare/v3.0.5...v3.0.6) (2022-02-07)
 
 
