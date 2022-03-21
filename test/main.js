@@ -33,7 +33,7 @@ test('Edge Handlers directory build.edge_handlers misconfiguration is reported',
 
 test('Edge Handlers directory build.edge_handlers syntax error is reported', async (t) => {
   const { output } = await runNetlifyBuild(t, 'syntax-error', { expectedSuccess: false })
-  t.true(output.includes('Error while bundling'))
+  t.true(output.includes('Missing semicolon'))
 })
 
 test('Edge Handlers CLI build works', async (t) => {
