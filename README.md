@@ -1,3 +1,9 @@
+# DEPRECATION NOTICE
+
+This code is no longer in use since it has been factored out of all Netlify workflows. Please refer to [the docs](https://docs.netlify.com/netlify-labs/experimental-features/edge-functions/) for information about the ongoing Edge Functions public beta.
+
+---
+
 # Netlify Plugin Edge Handlers
 
 This plugin is used to bundle Edge Handlers for deployment. It is included in the list of core plugins in Netlify's
